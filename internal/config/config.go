@@ -502,7 +502,7 @@ func normalizeServiceMode(value string) string {
 
 func acpHarnessName(name string) bool {
 	switch harness.NormalizeName(name) {
-	case "agent-zero", "opencode", "qwen-code", "kimi", "goose", "cursor", "gemini-cli", "github-copilot", "factory-droid", "acp":
+	case "agent-zero", "opencode", "cline", "qwen-code", "kimi", "goose", "cursor", "gemini-cli", "github-copilot", "factory-droid", "acp":
 		return true
 	default:
 		return false

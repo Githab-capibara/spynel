@@ -150,6 +150,33 @@ func TestACPProfilesResolveFixedAndCustomCommandsWithoutShellParsing(t *testing.
 	}
 }
 
+func TestClineACPProfileUsesDocumentedFlag(t *testing.T) {
+	definition, ok := Lookup("cline")
+	if !ok || definition.Name != "cline" || definition.DisplayName != "Cline" || definition.Command != "cline" {
+		t.Fatalf("Cline ACP profile = %#v, %t", definition, ok)
+	}
+	if definition.Description != "Cline CLI via ACP" || definition.Custom || len(definition.CheckArgs) != 0 || len(definition.Env) != 0 {
+		t.Fatalf("Cline ACP metadata = %#v", definition)
+	}
+	arguments := CommandArgs("cline", nil)
+	if len(arguments) != 1 || arguments[0] != "--acp" {
+		t.Fatalf("Cline ACP arguments = %#v", arguments)
+	}
+	arguments[0] = "changed"
+	if CommandArgs("cline", nil)[0] != "--acp" {
+		t.Fatal("Cline catalog arguments were returned by reference")
+	}
+	command, err := resolveCommandWithProbe("cline", func(name string) (string, error) {
+		return "/tools/" + name, nil
+	}, func(string, []string) (string, error) {
+		t.Fatal("Cline profile must not run an ACP capability probe")
+		return "", nil
+	})
+	if err != nil || command != "/tools/cline" {
+		t.Fatalf("Cline command resolution = %q, %v", command, err)
+	}
+}
+
 func TestResolveDefinitionCommandUsesStandardUserLocalBin(t *testing.T) {
 	definition, ok := Lookup("claude-code")
 	if !ok {

@@ -19,8 +19,9 @@ import (
 )
 
 const (
-	acpProtocolVersion = 1
-	acpMaxRecord       = 16 * 1024 * 1024
+	acpProtocolVersion   = 1
+	acpMaxRecord         = 16 * 1024 * 1024
+	acpCatalogSessionKey = "acp-model-catalog"
 )
 
 // ACP adapts the stable v1 Agent Client Protocol over its standard JSON-RPC
@@ -43,12 +44,32 @@ type ACP struct {
 	live     map[string]bool
 	active   map[string]*acpTurn
 	caps     acpAgentCapabilities
+	auth     []acpAuthMethod
+	agent    acpAgentInfo
 	closed   bool
 }
 
+type acpAgentInfo struct {
+	Name  string `json:"name"`
+	Title string `json:"title"`
+}
+
 type acpSession struct {
-	ID     string `json:"id"`
-	Policy string `json:"policy"`
+	ID     string             `json:"id"`
+	Policy string             `json:"policy"`
+	Model  acpCatalogSnapshot `json:"catalog,omitempty"`
+}
+
+// acpCatalogSnapshot preserves the model choices an agent advertised on the
+// session that created it, so /model can render a catalog for agents (such as
+// Cline) that never expose one through initialize.
+type acpCatalogSnapshot struct {
+	ModelID   string                 `json:"modelId,omitempty"`
+	ModelName string                 `json:"modelName,omitempty"`
+	ModeID    string                 `json:"modeId,omitempty"`
+	ModeName  string                 `json:"modeName,omitempty"`
+	Models    []acpConfigOptionValue `json:"models,omitempty"`
+	Modes     []acpConfigOptionValue `json:"modes,omitempty"`
 }
 
 type acpTurn struct {
@@ -90,6 +111,12 @@ type acpEnvelope struct {
 	Error   *acpRPCError    `json:"error,omitempty"`
 }
 
+type acpAuthMethod struct {
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}
+
 type acpAgentCapabilities struct {
 	LoadSession         bool `json:"loadSession"`
 	SessionCapabilities struct {
@@ -104,9 +131,17 @@ type acpSessionResult struct {
 }
 
 type acpConfigOption struct {
-	ID       string `json:"id"`
-	Category string `json:"category"`
-	Type     string `json:"type"`
+	ID           string                 `json:"id"`
+	Name         string                 `json:"name"`
+	Category     string                 `json:"category"`
+	Type         string                 `json:"type"`
+	CurrentValue string                 `json:"currentValue"`
+	Options      []acpConfigOptionValue `json:"options"`
+}
+
+type acpConfigOptionValue struct {
+	Value string `json:"value"`
+	Name  string `json:"name"`
 }
 
 func NewACP(cfg HarnessConfig) (*ACP, error) {
@@ -206,6 +241,8 @@ func (a *ACP) Start(parent context.Context) error {
 	var initialized struct {
 		ProtocolVersion   int                  `json:"protocolVersion"`
 		AgentCapabilities acpAgentCapabilities `json:"agentCapabilities"`
+		AgentInfo         acpAgentInfo         `json:"agentInfo"`
+		AuthMethods       []acpAuthMethod      `json:"authMethods"`
 	}
 	if err := json.Unmarshal(result, &initialized); err != nil {
 		_ = a.Close()
@@ -217,8 +254,50 @@ func (a *ACP) Start(parent context.Context) error {
 	}
 	a.mu.Lock()
 	a.caps = initialized.AgentCapabilities
+	a.auth = initialized.AuthMethods
+	a.agent = initialized.AgentInfo
 	a.mu.Unlock()
 	return nil
+}
+
+// acpAuthGuidance renders the agent's advertised authentication methods so an
+// unauthenticated ACP agent produces an actionable error instead of a raw code.
+func acpAuthGuidance(command string, methods []acpAuthMethod) string {
+	trimmed := strings.TrimSpace(command)
+	base := trimmed
+	if index := strings.LastIndex(base, "/"); index >= 0 {
+		base = base[index+1:]
+	}
+	var names []string
+	for _, method := range methods {
+		name := strings.TrimSpace(method.Name)
+		if name == "" {
+			name = strings.TrimSpace(method.ID)
+		}
+		if name != "" {
+			names = append(names, name)
+		}
+	}
+	verbs := "authenticate"
+	if len(names) > 0 {
+		verbs = fmt.Sprintf("authenticate (advertised methods: %s)", strings.Join(names, ", "))
+	}
+	if base == "" {
+		return fmt.Sprintf("the agent requires authentication; %s through its own CLI and retry", verbs)
+	}
+	return fmt.Sprintf("the %s agent requires authentication; run `%s` outside Spynel to %s, then retry", base, base, verbs)
+}
+
+// acpAuthRequired reports whether a JSON-RPC error describes an unauthenticated
+// agent. ACP reserves the application error range (>= -32099) for these
+// failures, and Cline and Gemini CLI both use -32000 for authentication errors.
+func acpAuthRequired(err error) bool {
+	var rpc *acpRPCError
+	if !errors.As(err, &rpc) {
+		return false
+	}
+	message := strings.ToLower(rpc.Message)
+	return rpc.Code <= -32000 && rpc.Code >= -32099 && strings.Contains(message, "auth")
 }
 
 func (a *ACP) Send(ctx context.Context, key, prompt string, emit core.Emit) (string, bool, error) {
@@ -461,11 +540,21 @@ func (a *ACP) ensureSession(ctx context.Context, key, model string) (acpSession,
 		if cfg.Name == "agent-zero" {
 			return acpSession{}, fmt.Errorf("Agent Zero CLI could not create an ACP session; ensure Agent Zero is running and reachable, and authenticate or configure the connection through A0 CLI if required: %w", err)
 		}
+		if acpAuthRequired(err) {
+			a.mu.Lock()
+			methods, command := a.auth, a.config.Command
+			a.mu.Unlock()
+			return acpSession{}, fmt.Errorf("create or resume ACP session: %w (%s)", err, acpAuthGuidance(command, methods))
+		}
 		return acpSession{}, fmt.Errorf("create or resume ACP session: %w", err)
 	}
 	var setup acpSessionResult
 	if err := json.Unmarshal(result, &setup); err != nil {
 		return acpSession{}, fmt.Errorf("decode ACP session response: %w", err)
+	}
+	catalog, hasCatalog := acpCatalogFromOptions(setup.ConfigOptions)
+	if !hasCatalog {
+		catalog = session.Model
 	}
 	if setup.SessionID != "" {
 		session.ID = setup.SessionID
@@ -473,18 +562,21 @@ func (a *ACP) ensureSession(ctx context.Context, key, model string) (acpSession,
 	if session.ID == "" {
 		return acpSession{}, errors.New("ACP session response omitted sessionId")
 	}
-	if err := a.applySessionOptions(ctx, session.ID, setup.ConfigOptions, usedMethod == "session/new", cfg); err != nil {
-		return acpSession{}, err
-	}
 	session.Policy = acpSessionPolicy(cfg)
+	session.Model = catalog
 	a.mu.Lock()
 	a.sessions[key] = session
-	a.live[key] = true
 	err = a.saveSessionsLocked()
 	a.mu.Unlock()
 	if err != nil {
 		return acpSession{}, err
 	}
+	if err := a.applySessionOptions(ctx, session.ID, setup.ConfigOptions, usedMethod == "session/new", cfg); err != nil {
+		return acpSession{}, err
+	}
+	a.mu.Lock()
+	a.live[key] = true
+	a.mu.Unlock()
 	return session, nil
 }
 
@@ -493,31 +585,222 @@ func capabilityPresent(value json.RawMessage) bool {
 	return trimmed != "" && trimmed != "null" && trimmed != "false"
 }
 
-func (a *ACP) applySessionOptions(ctx context.Context, sessionID string, options []acpConfigOption, requireModel bool, cfg HarnessConfig) error {
-	modelSet := strings.TrimSpace(cfg.Model) == ""
-	for _, option := range options {
-		value := ""
-		switch option.Category {
-		case "model":
-			if modelSet {
-				continue
-			}
-			value = strings.TrimSpace(cfg.Model)
-		}
-		if value == "" || option.Type != "select" {
-			continue
-		}
-		if _, err := a.call(ctx, "session/set_config_option", map[string]any{
-			"sessionId": sessionID, "configId": option.ID, "value": value,
-		}); err != nil {
-			return fmt.Errorf("set ACP %s option %q: %w", option.Category, option.ID, err)
-		}
-		if option.Category == "model" {
-			modelSet = true
+// acpSelectModelOption picks the single config option that should receive the
+// configured model. Agents disagree on where the model lives: most expose one
+// option with category "model", but Cline also lists its billing provider with
+// the same category. Writing the model into every same-category option would
+// make Cline reject the request ("Unknown provider"), so the option id and the
+// advertised choices disambiguate, and an ambiguous option list fails closed.
+func acpSelectModelOption(options []acpConfigOption, model string) *acpConfigOption {
+	var candidates []*acpConfigOption
+	for index := range options {
+		option := &options[index]
+		if option.Category == "model" && option.Type == "select" {
+			candidates = append(candidates, option)
 		}
 	}
-	if requireModel && !modelSet {
-		return fmt.Errorf("ACP agent does not expose a model config option; clear harness.model or configure the agent command itself")
+	if len(candidates) == 0 {
+		return nil
+	}
+	for _, option := range candidates {
+		if option.ID == "model" {
+			return option
+		}
+	}
+	matches := 0
+	var matched *acpConfigOption
+	for _, option := range candidates {
+		for _, choice := range option.Options {
+			if choice.Value == model {
+				matches++
+				matched = option
+				break
+			}
+		}
+	}
+	if matches == 1 {
+		return matched
+	}
+	return nil
+}
+
+// acpCatalogFromOptions converts ACP config options into Spynel's model
+// catalog: model-category select options become models, and mode-category
+// options are kept for the mode-aware fixes. Missing names fall back to ids.
+// Like the model write path, exactly one option supplies the catalog: when an
+// agent lists its billing provider with the same category, the id-based and
+// uniqueness-based disambiguation applies and ambiguous option lists produce
+// no catalog rather than a polluted one.
+func acpCatalogFromOptions(options []acpConfigOption) (acpCatalogSnapshot, bool) {
+	var snapshot acpCatalogSnapshot
+	found := false
+	var modelCandidates []*acpConfigOption
+	for index := range options {
+		option := &options[index]
+		if option.Category == "model" && len(option.Options) > 0 {
+			modelCandidates = append(modelCandidates, option)
+		}
+	}
+	switch {
+	case len(modelCandidates) == 1:
+		snapshot.mergeModelChoices(modelCandidates[0])
+		found = true
+	case len(modelCandidates) > 1:
+		for _, option := range modelCandidates {
+			if option.ID == "model" {
+				snapshot.mergeModelChoices(option)
+				found = true
+				break
+			}
+		}
+	}
+	for _, option := range options {
+		if option.Category != "mode" || option.Type != "select" {
+			continue
+		}
+		if snapshot.ModeID == "" {
+			snapshot.ModeID = option.ID
+			snapshot.ModeName = option.Name
+			if snapshot.ModeName == "" {
+				snapshot.ModeName = option.ID
+			}
+		}
+		for _, choice := range option.Options {
+			id := strings.TrimSpace(choice.Value)
+			if id == "" {
+				continue
+			}
+			name := strings.TrimSpace(choice.Name)
+			if name == "" {
+				name = id
+			}
+			snapshot.Modes = append(snapshot.Modes, acpConfigOptionValue{Value: id, Name: name})
+		}
+	}
+	return snapshot, found
+}
+
+func (s *acpCatalogSnapshot) mergeModelChoices(option *acpConfigOption) {
+	s.ModelID = option.ID
+	s.ModelName = strings.TrimSpace(option.Name)
+	if s.ModelName == "" {
+		s.ModelName = option.ID
+	}
+	for _, choice := range option.Options {
+		id := strings.TrimSpace(choice.Value)
+		if id == "" {
+			continue
+		}
+		name := strings.TrimSpace(choice.Name)
+		if name == "" {
+			name = id
+		}
+		s.Models = append(s.Models, acpConfigOptionValue{Value: id, Name: name})
+	}
+}
+
+func (a *ACP) Models(ctx context.Context) ([]Model, error) {
+	modelsFrom := func(sessions map[string]acpSession) ([]Model, bool) {
+		for _, session := range sessions {
+			if len(session.Model.Models) == 0 {
+				continue
+			}
+			models := make([]Model, 0, len(session.Model.Models))
+			for _, choice := range session.Model.Models {
+				models = append(models, Model{ID: choice.Value, DisplayName: choice.Name})
+			}
+			return models, true
+		}
+		return nil, false
+	}
+	a.mu.Lock()
+	models, ok := modelsFrom(a.sessions)
+	a.mu.Unlock()
+	if ok {
+		return models, nil
+	}
+	if err := a.ensureCatalogSession(ctx); err != nil {
+		return nil, err
+	}
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	models, ok = modelsFrom(a.sessions)
+	if ok {
+		return models, nil
+	}
+	return nil, errors.New("the active harness did not advertise any models")
+}
+
+// ensureCatalogSession creates a throwaway ACP session so the agent advertises
+// its config options. The session stays listed but unused by conversations.
+func (a *ACP) ensureCatalogSession(ctx context.Context) error {
+	a.mu.Lock()
+	if a.closed || a.ctx == nil {
+		a.mu.Unlock()
+		return errors.New("ACP harness is not running")
+	}
+	a.mu.Unlock()
+	lock := a.lockForKey(acpCatalogSessionKey)
+	lock.Lock()
+	defer lock.Unlock()
+	a.mu.Lock()
+	session := a.sessions[acpCatalogSessionKey]
+	a.mu.Unlock()
+	if session.ID != "" && len(session.Model.Models) > 0 {
+		return nil
+	}
+	_, err := a.ensureSession(ctx, acpCatalogSessionKey, "")
+	return err
+}
+
+// acpDesiredMode maps Spynel's sandbox policy onto the agent's mode option.
+// ACP has no permission model of its own (the session summarizes), so
+// read-only is enforced by asking the agent to plan instead of acting; the
+// fallback also keeps the mapping safe for agents that name their modes
+// differently (research/…).
+func acpDesiredMode(sandbox string) string {
+	if sandbox == "read-only" {
+		return "plan"
+	}
+	return ""
+}
+
+func (a *ACP) applySessionOptions(ctx context.Context, sessionID string, options []acpConfigOption, requireModel bool, cfg HarnessConfig) error {
+	if mode := acpDesiredMode(cfg.Sandbox); mode != "" {
+		for _, option := range options {
+			if option.Category != "mode" || option.Type != "select" {
+				continue
+			}
+			supported := false
+			for _, choice := range option.Options {
+				supported = supported || choice.Value == mode
+			}
+			if !supported {
+				continue
+			}
+			if _, err := a.call(ctx, "session/set_config_option", map[string]any{
+				"sessionId": sessionID, "configId": option.ID, "value": mode,
+			}); err != nil {
+				return fmt.Errorf("set ACP %s option %q: %w", option.Category, option.ID, err)
+			}
+			break
+		}
+	}
+	model := strings.TrimSpace(cfg.Model)
+	if model == "" {
+		return nil
+	}
+	option := acpSelectModelOption(options, model)
+	if option == nil {
+		if !requireModel {
+			return nil
+		}
+		return fmt.Errorf("ACP agent does not expose a model config option for %q; clear harness.model or configure the agent command itself", model)
+	}
+	if _, err := a.call(ctx, "session/set_config_option", map[string]any{
+		"sessionId": sessionID, "configId": option.ID, "value": model,
+	}); err != nil {
+		return fmt.Errorf("set ACP %s option %q: %w", option.Category, option.ID, err)
 	}
 	return nil
 }

@@ -368,6 +368,22 @@ func TestHarnessSandboxValidationAcceptsCanonicalModes(t *testing.T) {
 	}
 }
 
+func TestLoadAcceptsClineACPProfileWithoutACPInferenceProperties(t *testing.T) {
+	root := t.TempDir()
+	path := writeTestConfig(t, root, []byte("version: 1\nharness:\n  name: cline\n"))
+	if _, err := Load(path); err != nil {
+		t.Fatalf("cline ACP profile rejected: %v", err)
+	}
+	path = writeTestConfig(t, root, []byte("version: 1\nharness:\n  name: cline\n  reasoning_effort: high\n"))
+	if _, err := Load(path); err == nil || !strings.Contains(err.Error(), "reasoning_effort is not supported for ACP") {
+		t.Fatalf("cline reasoning-effort error = %v", err)
+	}
+	path = writeTestConfig(t, root, []byte("version: 1\nharness:\n  name: cline\n  service_mode: fast\n"))
+	if _, err := Load(path); err == nil || !strings.Contains(err.Error(), "service_mode is not supported for cline") {
+		t.Fatalf("cline service-mode error = %v", err)
+	}
+}
+
 func TestCustomACPRequiresCommandAndPreservesShellFreeArguments(t *testing.T) {
 	cfg := Default()
 	cfg.Harness.Name = "acp"

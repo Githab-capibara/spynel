@@ -69,7 +69,7 @@ Telegram and WhatsApp replies store a compact same-message reference as `reply_t
 
 ## Coding harness (`harness`)
 
-- `name`: `codex`, `claude-code`, `agent-zero`, `pi`, an ACP alias (`opencode`, `qwen-code`, `kimi`, `goose`, `cursor`, `gemini-cli`, `github-copilot`, or `factory-droid`), or custom `acp`.
+- `name`: `codex`, `claude-code`, `agent-zero`, `pi`, an ACP alias (`opencode`, `cline`, `qwen-code`, `kimi`, `goose`, `cursor`, `gemini-cli`, `github-copilot`, or `factory-droid`), or custom `acp`.
 - `model`: optional model override; empty selects the harness default.
 - `reasoning_effort`: optional model-specific effort/thinking level; explicit empty or `inherit` uses the model/harness default. For compatibility, a configuration created before this key existed and still omitting it retains Spynel's historical `medium` runtime effort.
 - `service_mode`: optional provider service/speed tier; omitted or `inherit` uses the provider default.
@@ -93,7 +93,7 @@ The capability mapping is deliberately asymmetric and provider-backed:
 | `codex` | Detected per-model values from app-server `model/list`, or a manual value | Exact per-model `serviceTiers`, including `fast` only when advertised | app-server `turn/start` `effort` and `serviceTier` |
 | `claude-code` | Detected `low`, `medium`, `high`, `xhigh`, `max` where available, or a manual value | Unsupported | `claude --effort` |
 | `pi` | Exact per-model values from RPC `get_available_thinking_levels`, queried in a separate `--no-session --model <id>` process so inspection never changes Pi's saved default; `get_state` identifies the current/default model and its current thinking level because the catalog has no default metadata; other models receive no guessed default label; the sole `off` response offers no detected choices; manual values remain available | Unsupported | `pi --thinking` |
-| `agent-zero`, `opencode`, `qwen-code`, `kimi`, `goose`, `cursor`, `gemini-cli`, `github-copilot`, `factory-droid`, custom `acp` | Unsupported by Spynel: optional ACP `thought_level` choices are unavailable until after session creation, too late for the shared pre-dispatch selector | Unsupported: ACP defines no standard speed category | No reasoning or speed option is sent; advertised model selection remains supported. A legacy omitted key may decode as `medium` for compatibility, but ACP ignores that sentinel. |
+| `agent-zero`, `opencode`, `cline`, `qwen-code`, `kimi`, `goose`, `cursor`, `gemini-cli`, `github-copilot`, `factory-droid`, custom `acp` | Unsupported by Spynel: optional ACP `thought_level` choices are unavailable until after session creation, too late for the shared pre-dispatch selector | Unsupported: ACP defines no standard speed category | No reasoning or speed option is sent; advertised model selection remains supported. A legacy omitted key may decode as `medium` for compatibility, but ACP ignores that sentinel. |
 
 This mapping is based on the [Codex app-server model and turn schemas](https://developers.openai.com/codex/app-server/), [OpenAI service-tier semantics](https://developers.openai.com/api/reference/resources/responses/methods/create), [Claude Code CLI reference](https://docs.anthropic.com/en/docs/claude-code/cli-usage), [Pi's model/thinking interface](https://github.com/earendil-works/pi), and [ACP session config options](https://agentclientprotocol.com/announcements/session-config-options-stabilized). Unknown or too-late-to-discover capabilities are not inferred from another harness or presented as selectable.
 

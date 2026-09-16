@@ -50,6 +50,7 @@ var catalog = []Definition{
 		factory: func(cfg HarnessConfig) (Harness, error) { return NewPi(cfg) },
 	},
 	acpDefinition("opencode", "OpenCode", "opencode", []string{"acp"}, "OpenCode via ACP", "https://opencode.ai/docs/acp/"),
+	acpDefinition("cline", "Cline", "cline", []string{"--acp"}, "Cline CLI via ACP", "https://docs.cline.bot/cline-cli/overview"),
 	acpDefinition("qwen-code", "Qwen Code", "qwen", []string{"--acp", "--experimental-skills"}, "Qwen Code via ACP", "https://qwenlm.github.io/qwen-code-docs/"),
 	acpDefinition("kimi", "Kimi CLI", "kimi", []string{"acp"}, "Kimi CLI via ACP", "https://www.kimi.com/code/docs/en/kimi-code-cli.html"),
 	acpDefinition("goose", "Goose", "goose", []string{"acp"}, "Goose via ACP", "https://block.github.io/goose/"),
@@ -109,7 +110,7 @@ func StaticCapabilities(name string) (reasoning, service string) {
 		return "low, medium, high, xhigh, max", "unsupported"
 	case "pi":
 		return "per-model catalog", "unsupported"
-	case "agent-zero", "opencode", "qwen-code", "kimi", "goose", "cursor", "gemini-cli", "github-copilot", "factory-droid", "acp":
+	case "agent-zero", "opencode", "cline", "qwen-code", "kimi", "goose", "cursor", "gemini-cli", "github-copilot", "factory-droid", "acp":
 		return "unsupported (choices are unavailable before ACP session creation)", "unsupported (no standard ACP speed category)"
 	default:
 		return "unknown", "unknown"

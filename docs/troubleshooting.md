@@ -27,6 +27,7 @@ After a job finishes or the primary restarts, use `/jobs recent`, then `/job inf
 ## Coding harness
 
 - If no supported harness is detected, open the harness setup and follow its installation guidance. Spynel does not copy credentials; sign in with the harness itself.
+- `cline` and `opencode` are ACP aliases: Spynel launches `cline --acp` or `opencode acp` and relies on the CLI's own sign-in. A `cline` child that exits before ACP negotiation reports a Hub lock or port conflict when another Cline instance already owns the same data directory, and a development checkout uses one fixed Hub port for every instance. Close that instance, or give the Spynel process a separate `CLINE_DATA_DIR` and `CLINE_HUB_PORT`. An environment that exports `CLINE_RUN_AS_HUB_DAEMON=1`, such as a Cline development shell, also makes the child believe it is the Hub daemon and must be cleared before launching Spynel there.
 - A working harness cannot be replaced while a turn is active, and Spynel will not replace it with a missing executable.
 - Pi and ACP permission mappings are application-level controls, not an operating-system sandbox. Review the [harness compatibility guide](harness-compatibility.md) and [configuration](configuration.md) before relying on a profile.
 

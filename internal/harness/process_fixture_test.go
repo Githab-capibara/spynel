@@ -171,7 +171,7 @@ func runHarnessFixture(mode string) int {
 		return runClaudeFixture(mode)
 	case "pi-lifecycle", "pi-steer", "pi-interrupt", "pi-state-missing-session", "pi-model-capabilities", "pi-off-default":
 		return runPiFixture(mode)
-	case "acp-lifecycle", "acp-interrupt", "acp-version-mismatch", "acp-session-error":
+	case "acp-lifecycle", "acp-interrupt", "acp-version-mismatch", "acp-session-error", "acp-dual-model-options", "acp-provider-only-model", "acp-auth-required":
 		return runACPFixture(mode)
 	default:
 		_, _ = fmt.Fprintf(os.Stderr, "unknown harness fixture mode %q\n", mode)
@@ -338,14 +338,47 @@ func runACPFixture(mode string) int {
 			if mode == "acp-version-mismatch" {
 				protocolVersion = 2
 			}
+			if mode == "acp-dual-model-options" || mode == "acp-provider-only-model" || mode == "acp-auth-required" {
+				respond(request, map[string]any{
+					"protocolVersion":   1,
+					"agentCapabilities": map[string]any{"loadSession": true, "sessionCapabilities": map[string]any{"resume": map[string]any{}, "close": map[string]any{}}},
+					"agentInfo":         map[string]string{"name": "fixture", "version": "1"},
+					"authMethods":       []any{map[string]any{"id": "cline", "name": "Sign in with Cline", "description": "usage billing"}},
+				})
+				continue
+			}
 			respond(request, map[string]any{
 				"protocolVersion":   protocolVersion,
 				"agentCapabilities": map[string]any{"loadSession": true, "sessionCapabilities": map[string]any{"resume": map[string]any{}, "close": map[string]any{}}},
 				"agentInfo":         map[string]string{"name": "fixture", "version": "1"},
 			})
 		case "session/new":
+			if mode == "acp-auth-required" {
+				write(map[string]any{"jsonrpc": "2.0", "id": request.ID, "error": map[string]any{"code": -32000, "message": "Authentication required"}})
+				continue
+			}
 			if mode == "acp-session-error" {
 				write(map[string]any{"jsonrpc": "2.0", "id": request.ID, "error": map[string]any{"code": -32603, "message": "Internal error"}})
+				continue
+			}
+			if mode == "acp-provider-only-model" {
+				respond(request, map[string]any{
+					"sessionId": "acp-session",
+					"configOptions": []any{
+						map[string]any{"id": "provider", "name": "Provider", "category": "model", "type": "select", "currentValue": "cline", "options": []any{map[string]any{"value": "cline", "name": "Cline"}, map[string]any{"value": "openai", "name": "OpenAI"}}},
+					},
+				})
+				continue
+			}
+			if mode == "acp-dual-model-options" {
+				respond(request, map[string]any{
+					"sessionId": "acp-session",
+					"configOptions": []any{
+						map[string]any{"id": "provider", "name": "Provider", "category": "model", "type": "select", "currentValue": "cline", "options": []any{map[string]any{"value": "cline", "name": "Cline"}, map[string]any{"value": "openai", "name": "OpenAI"}}},
+						map[string]any{"id": "model", "name": "Model", "category": "model", "type": "select", "currentValue": "", "options": []any{map[string]any{"value": "anthropic/claude-sonnet-5", "name": "Claude Sonnet 5"}, map[string]any{"value": "openai/gpt-5", "name": "GPT-5"}}},
+						map[string]any{"id": "mode", "name": "Mode", "category": "mode", "type": "select", "currentValue": "act", "options": []any{map[string]any{"value": "act", "name": "Act"}, map[string]any{"value": "plan", "name": "Plan"}}},
+					},
+				})
 				continue
 			}
 			respond(request, map[string]any{
@@ -365,6 +398,10 @@ func runACPFixture(mode string) int {
 			promptMu.Lock()
 			promptID = append(json.RawMessage(nil), request.ID...)
 			promptMu.Unlock()
+			if mode == "acp-dual-model-options" || mode == "acp-provider-only-model" {
+				respond(message{ID: request.ID}, map[string]any{"stopReason": "end_turn"})
+				continue
+			}
 			if mode == "acp-lifecycle" {
 				write(map[string]any{"jsonrpc": "2.0", "id": 900, "method": "session/request_permission", "params": map[string]any{
 					"sessionId": "acp-session", "toolCall": map[string]any{"toolCallId": "tool-1", "kind": "edit"},
