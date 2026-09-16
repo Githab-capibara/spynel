@@ -48,7 +48,7 @@ Interactive `init` continues into the application. Automation can initialize wit
 spynel init --no-start --dir /path/to/workspace
 ```
 
-Spynel detects supported coding harnesses. If none is available, setup shows installation guidance; authentication remains the responsibility of the selected harness. Run `spynel doctor` after setup to check the configured environment. See [configuration](configuration.md) and [harness compatibility](harness-compatibility.md) for the supported profiles and exact settings.
+Spynel detects supported coding harnesses. If none is available, setup shows installation guidance; authentication remains the responsibility of the selected harness. Run `spynel doctor` after setup to check the configured environment. See [configuration](../configuration/01-configuration.md) and [harness compatibility](../harness/01-harness-compatibility.md) for the supported profiles and exact settings.
 
 ## Updates
 
@@ -99,4 +99,4 @@ Run the repository checks relevant to a complete local change:
 npm run test:npm
 ```
 
-Release packaging has additional native-archive checks documented in [releasing](releasing.md). For non-visual operation, named conversations, streaming, and automation output, continue with the [plain CLI guide](cli.md).
+Release packaging has additional native-archive checks documented in [releasing](../releasing/01-releasing.md). For non-visual operation, named conversations, streaming, and automation output, continue with the [plain CLI guide](../automation/01-cli-and-automation.md).

@@ -16,7 +16,7 @@ After a job finishes or the primary restarts, use `/jobs recent`, then `/job inf
 
 ## Installation or startup
 
-- The standalone public one-liner requires URL routing and a release containing standalone installer support. If it is unavailable, use npm or the development steps in [getting started](getting-started.md).
+- The standalone public one-liner requires URL routing and a release containing standalone installer support. If it is unavailable, use npm or the development steps in [getting started](01-getting-started.md).
 - Run `spynel` from the directory that should own the workspace. Its private configuration and state live in that directory's fixed `.spynel/` folder.
 - If a development install is not found, follow the exact PATH guidance printed by `scripts/install-dev.sh`, or choose a writable directory already on PATH with `--bin-dir`.
 - The configuration must be `.spynel/config.yaml` and match the current schema. Unknown or obsolete fields fail validation with their source location.
@@ -29,7 +29,7 @@ After a job finishes or the primary restarts, use `/jobs recent`, then `/job inf
 - If no supported harness is detected, open the harness setup and follow its installation guidance. Spynel does not copy credentials; sign in with the harness itself.
 - `cline` and `opencode` are ACP aliases: Spynel launches `cline --acp` or `opencode acp` and relies on the CLI's own sign-in. A `cline` child that exits before ACP negotiation reports a Hub lock or port conflict when another Cline instance already owns the same data directory, and a development checkout uses one fixed Hub port for every instance. Close that instance, or give the Spynel process a separate `CLINE_DATA_DIR` and `CLINE_HUB_PORT`. An environment that exports `CLINE_RUN_AS_HUB_DAEMON=1`, such as a Cline development shell, also makes the child believe it is the Hub daemon and must be cleared before launching Spynel there.
 - A working harness cannot be replaced while a turn is active, and Spynel will not replace it with a missing executable.
-- Pi and ACP permission mappings are application-level controls, not an operating-system sandbox. Review the [harness compatibility guide](harness-compatibility.md) and [configuration](configuration.md) before relying on a profile.
+- Pi and ACP permission mappings are application-level controls, not an operating-system sandbox. Review the [harness compatibility guide](../harness/01-harness-compatibility.md) and [configuration](../configuration/01-configuration.md) before relying on a profile.
 
 ## Telegram or WhatsApp
 
@@ -44,4 +44,4 @@ After a job finishes or the primary restarts, use `/jobs recent`, then `/job inf
 - Speech accepts WAV, FLAC, MP3, and Telegram/WhatsApp Ogg/Opus voice notes. M4A/AAC, WebM, and other formats return an unsupported-format error. First supported use downloads a checksum-pinned model into the operating system's per-user cache unless `speech.model_dir` is configured.
 - Plain CLI flags precede positional command arguments. Add `--stream` for text deltas or `--json` for NDJSON events; default `send` output is only the final assistant message.
 
-Continue with [communication integrations](integrations.md), [configuration](configuration.md), or the [plain CLI guide](cli.md) for complete behavior and settings.
+Continue with [communication integrations](../channels/01-integrations.md), [configuration](../configuration/01-configuration.md), or the [plain CLI guide](../automation/01-cli-and-automation.md) for complete behavior and settings.

@@ -95,17 +95,17 @@ Use `/config` for setup.
 
 ## Documentation
 
-- **Start here:** [Getting started and development](docs/getting-started.md)
-- **Configure Spynel:** [Configuration](docs/configuration.md)
-- **Use the TUI, Telegram, WhatsApp, and voice:** [Communication integrations](docs/integrations.md)
-- **Choose a coding harness:** [Harness compatibility](docs/harness-compatibility.md)
-- **Coordinate durable work:** [Tasks and goals](docs/tasks-and-goals.md)
-- **Understand the system and its security boundaries:** [Architecture](docs/architecture.md) and [provider-canary threat model](docs/provider-canary-threat-model.md)
-- **Automate from the terminal:** [CLI and automation](docs/cli.md) and [agent-readable docs](docs/agent-docs.md)
-- **Install trusted hooks:** [Extensions](docs/extensions.md)
-- **Build and publish releases:** [Releasing and packaging](docs/releasing.md)
-- **Diagnose common setup problems:** [Troubleshooting](docs/troubleshooting.md)
-- **Read the product principles:** [Product vision](docs/vision.md)
+- **Start here:** [Getting started and development](docs/guides/01-getting-started.md)
+- **Configure Spynel:** [Configuration](docs/configuration/01-configuration.md)
+- **Use the TUI, Telegram, WhatsApp, and voice:** [Communication integrations](docs/channels/01-integrations.md) and [TUI editing guide](docs/tui/01-tui-editing.md)
+- **Choose a coding harness:** [Harness compatibility](docs/harness/01-harness-compatibility.md)
+- **Coordinate durable work:** [Tasks and goals](docs/workflows/01-tasks-and-goals.md) and [architecture](docs/product/02-architecture.md)
+- **Understand the system and its security boundaries:** [Security and privacy](docs/security/02-security.md) and [provider-canary threat model](docs/security/01-provider-canary-threat-model.md)
+- **Automate from the terminal:** [CLI and automation](docs/automation/01-cli-and-automation.md), [programmatic integration](docs/automation/02-programmatic-integration.md), and [agent-readable docs](docs/automation/03-agent-readable-docs.md)
+- **Install trusted hooks:** [Extensions](docs/extensions/01-extensions-and-hooks.md)
+- **Build and publish releases:** [Releasing and packaging](docs/releasing/01-releasing.md)
+- **Diagnose common setup problems:** [Troubleshooting](docs/guides/02-troubleshooting.md)
+- **Read the product principles:** [Product vision](docs/product/01-product-vision.md)
 
 See the [documentation index](docs/README.md) for the complete guide map.
 

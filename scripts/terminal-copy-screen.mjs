@@ -1,5 +1,5 @@
 // Replay the real synthetic Go PTY through the small, test-only @xterm/headless
-// package. See docs/tui-editing.md for the pinned install and capture commands.
+// package. See docs/tui/01-tui-editing.md for the pinned install and capture commands.
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { createRequire } from "node:module";

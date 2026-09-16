@@ -7,10 +7,10 @@
 ## Local Contracts
 
 - Commands and configuration examples must match executable behavior and embedded defaults.
-- Keep public positioning aligned with the root product contract and `docs/vision.md`: Spynel is a classic non-AI orchestration program, external harnesses provide intelligence, and the single “agent” in the relationship slogan denotes the human-facing assistant interface. Adapt copy length to its surface without inventing product facts or treating conceptual scale as a resource guarantee.
+- Keep public positioning aligned with the root product contract and `docs/product/01-product-vision.md`: Spynel is a classic non-AI orchestration program, external harnesses provide intelligence, and the single “agent” in the relationship slogan denotes the human-facing assistant interface. Adapt copy length to its surface without inventing product facts or treating conceptual scale as a resource guarantee.
 - Keep root-README image assets under `.github/resources/`; `docs/` owns documentation content rather than repository-presentation artwork.
 - Document `.spynel/config.yaml` as the canonical private configuration, workspace-root-relative path resolution, the fixed non-configurable `.spynel` state directory, and validation of current settings, ignored unused input keys, and their removal on the next canonical save.
-- Keep `docs/agent-docs.md`, the curated `internal/agentdocs` catalog, concise `/help` metadata, harness prompt guidance, and CLI examples synchronized. Static documentation must remain offline, bounded, classified, and free of live/private workspace data.
+- Keep `docs/automation/03-agent-readable-docs.md`, the curated `internal/agentdocs` catalog, concise `/help` metadata, harness prompt guidance, and CLI examples synchronized. Static documentation must remain offline, bounded, classified, and free of live/private workspace data.
 - Clearly distinguish server-only operation, the interactive TUI, and the non-visual automation CLI.
 - Document persistent per-agent instruction role mapping, precedence, fresh loading, safe file constraints, memory-edit behavior, and the content-free inspection command distinctly from prompts, DOX, workflows, history, and harness configuration.
 - Document secret handling, fail-closed Telegram and WhatsApp access lists, required Telegram webhook verification, transport delivery/account modes, WhatsApp QR/session persistence, Codex, Claude Code, Agent Zero CLI, Pi, ACP-alias, and custom-ACP prerequisites, local Parakeet languages/formats/resource limits, startup registration, conversation branching, and extension trust.
@@ -31,12 +31,26 @@
 - Document Linux amd64/arm64 and macOS amd64/arm64 as the only current distribution targets, with Windows explicitly and temporarily unsupported by both native packaging and npm.
 - Keep authenticated provider canaries gated by the reviewed threat model: synthetic repositories only, disposable identities and homes, verified artifacts, bounded egress/cost/time, sanitized evidence, and per-run authorization. A plan or CI definition is not evidence that a provider was executed.
 
-- `programmatic-integration.md` owns the supported v1 HTTP/NDJSON contract, request admission/retry limits, committed subscription/replay semantics, snapshot resynchronization, private Unix socket topology/limits, and runnable adapter/local-test examples. Keep the compiled integration topic and CLI help synchronized.
+- `docs/automation/02-programmatic-integration.md` owns the supported v1 HTTP/NDJSON contract, request admission/retry limits, committed subscription/replay semantics, snapshot resynchronization, private Unix socket topology/limits, and runnable adapter/local-test examples. Keep the compiled integration topic and CLI help synchronized.
 
-- Keep the README install and uninstall examples short. The plain install pipe must support an immediate `spynel` command for root and regular users; detailed permission and override behavior belongs in getting started. Public `uninstall.sh` automatically stops matching processes, removes startup registrations, and removes both standalone and npm installations while keeping workspace data.
+- Keep the README install and uninstall examples short. The plain install pipe must support an immediate `spynel` command for root and regular users; detailed permission and override behavior belongs in `docs/guides/01-getting-started.md`. Public `uninstall.sh` automatically stops matching processes, removes startup registrations, and removes both standalone and npm installations while keeping workspace data.
 
 - Document update-by-default, explicit read-only `update check`, caller-installation versus channel-primary selection, cross-workspace instance restart, and shell `killall` with preserved future autostart registrations. State per-user process discovery and the one-time stop/relaunch requirement for older releases without coordinated restart.
 
 ## Child DOX Index
 
-No child DOX files.
+Direct child DOX files:
+
+| Child | Scope |
+| --- | --- |
+| [automation/AGENTS.md](automation/AGENTS.md) | Plain CLI, programmatic integration, and agent-readable documentation. |
+| [channels/AGENTS.md](channels/AGENTS.md) | Telegram, WhatsApp, and response-delivery behavior. |
+| [configuration/AGENTS.md](configuration/AGENTS.md) | Configuration and settings matrix. |
+| [extensions/AGENTS.md](extensions/AGENTS.md) | Trusted executable extensions and hooks. |
+| [guides/AGENTS.md](guides/AGENTS.md) | Getting started and troubleshooting guides. |
+| [harness/AGENTS.md](harness/AGENTS.md) | Coding-harness compatibility. |
+| [product/AGENTS.md](product/AGENTS.md) | Product vision and architecture. |
+| [releasing/AGENTS.md](releasing/AGENTS.md) | Release, packaging, and update documentation. |
+| [security/AGENTS.md](security/AGENTS.md) | Provider-canary threat model and security. |
+| [tui/AGENTS.md](tui/AGENTS.md) | TUI text editing and terminal checks. |
+| [workflows/AGENTS.md](workflows/AGENTS.md) | Tasks, goals, and persistent instructions. |

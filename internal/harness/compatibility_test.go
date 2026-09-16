@@ -13,7 +13,7 @@ import (
 )
 
 // These labels identify the public protocol snapshots represented by the
-// synthetic process variants. Refresh them with docs/harness-compatibility.md
+// synthetic process variants. Refresh them with docs/harness/01-harness-compatibility.md
 // whenever a consumed method, flag, field, event, or terminal shape changes.
 const (
 	codexFixtureProvenance  = "codex-app-server-0.154.0-schema-retrieved-2026-09-14"

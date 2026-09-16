@@ -4,7 +4,7 @@ This document is the mandatory safety and execution design for a real Codex
 CLI/app-server or Claude Code CLI compatibility canary. It does not authorize a
 run. It deliberately contains no credential, executable, provider transcript,
 remote-runner invocation, or workflow that starts a provider. The compatibility
-claims to be tested remain in the [harness compatibility matrix](harness-compatibility.md).
+claims to be tested remain in the [harness compatibility matrix](../harness/01-harness-compatibility.md).
 
 ## Decision and scope
 
