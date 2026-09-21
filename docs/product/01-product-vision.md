@@ -1,5 +1,13 @@
 # Product vision
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** Spynel's positioning, the three pillars, and the "One human → one agent → infinite agents" relationship.
+- **Feeds into:** docs/product/02-architecture.md
+- **Related:** [Architecture](02-architecture.md)
+
 **Simplicity at scale.**
 
 Spynel is a classic program with no AI in its core. It coordinates and oversees external AI coding agents through the harnesses they already use. Spynel supplies deterministic communication, task state, lifecycle rules, and orchestration; the selected harness supplies intelligence, tools, and model capability.

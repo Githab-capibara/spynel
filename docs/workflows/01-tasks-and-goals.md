@@ -1,5 +1,13 @@
 # Tasks and goals
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** Finite tasks, measurable goals, leases, review, recovery, and notifications.
+- **Feeds into:** internal/orchestrator
+- **Related:** [Architecture](../product/02-architecture.md), [Plain CLI and automation](../automation/01-cli-and-automation.md)
+
 Spynel stores orchestration state as human-readable Markdown with machine-readable YAML front matter. External coding harnesses do the reasoning and implementation; Spynel owns deterministic claiming, lifecycle, review policy, recovery, and dispatch.
 
 ## Tasks

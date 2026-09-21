@@ -1,5 +1,13 @@
 # Plain CLI and automation
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** Complete non-visual command reference and output contract for the shared application service.
+- **Feeds into:** docs/automation/02-programmatic-integration.md, docs/automation/03-agent-readable-docs.md
+- **Related:** [Configuration](../configuration/01-configuration.md), [Extensions and hooks](../extensions/01-extensions-and-hooks.md)
+
 Spynel is a classic, non-AI orchestration program; coding harnesses provide its external intelligence. The plain CLI exposes Spynel's non-visual control plane without opening the full-screen TUI. It uses the same application service, durable histories, harness sessions, configuration save/reload boundary, jobs, logs, and trusted extension hooks as Telegram, WhatsApp, and the TUI.
 
 ## Offline documentation
@@ -18,7 +26,7 @@ spynel docs search "primary election" page 2 --format json
 
 Static topics describe user commands, workflow contracts, and implementation architecture. They label runtime-only subjects such as jobs and logs and never represent live values. Use `spynel status`, `jobs`, `tasks`, `goals`, `logs`, and the actual task/goal documents for current state.
 
-`/log`, its page ranges, and case-insensitive search read the same retained newest-4,096-entry view after restart. `/log page <start>-<end>` accepts any positive ascending range and clamps the requested end to the oldest available retained page before rendering. Private JSONL session files live under `.spynel/runtime/logs`, rotate at 2 MiB, and retain at most eight files. `/log clear` removes both the active view and those retained files. Stored entries are attributed and bounded, with terminal controls and common credential forms removed before persistence.
+`/log`, its page ranges, and case-insensitive search read the same retained newest-4,096-entry view after restart. `/log page <start>-<end>` accepts any positive ascending range and clamps the requested end to the oldest available retained page before rendering. `/log search QUERY` filters that same view by the first matching line (case-insensitive substring match) and returns a bounded page window anchored on the match; it is read-only, never mutates history, and shares the `/log` retention and size bounds. `/log clear` removes both the active view and those retained files. Private JSONL session files live under `.spynel/runtime/logs`, rotate at 2 MiB, and retain at most eight files. Stored entries are attributed and bounded, with terminal controls and common credential forms removed before persistence.
 
 Runtime logs contain application diagnostics; per-job archives contain the ordered provider-neutral event stream for one numbered job generation. `/log clear` does not delete job archives. `/cleanup [days]` owns their age-based retention.
 

@@ -1,5 +1,13 @@
 # Releasing
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** Release procedure, npm and standalone packaging, updates, and uninstall mechanics.
+- **Feeds into:** .github/workflows/release.yml
+- **Related:** [Troubleshooting](../guides/02-troubleshooting.md)
+
 Publishing a GitHub Release is the release trigger and its `v<semantic version>` tag is the release version source. `.github/workflows/release.yml` checks out that tag, derives the npm package version from it, runs Go test/vet/build, the smoke test, npm launcher tests, and `npm pack --dry-run`. Semantic prerelease tags must be published as GitHub prereleases.
 
 Four CGO-enabled jobs build on matching native GitHub-hosted runners:
@@ -8,6 +16,13 @@ Four CGO-enabled jobs build on matching native GitHub-hosted runners:
 - macOS amd64 and arm64.
 
 Windows distribution is temporarily unsupported. The workflow has no Windows job, native packaging rejects every Windows target before compilation, and the npm wrapper fails with explicit Linux/macOS guidance instead of requesting a missing artifact. Each supported archive contains the executable, matching sherpa-onnx and ONNX Runtime libraries, and required license notices. Model weights remain checksum-pinned first-use downloads rather than release assets.
+
+Release bundles ship two root files that are not under `docs/` and are hard-referenced by packaging, the npm `files` list, and the updater's license-bundle validator:
+
+- `LICENSE` (the root MIT license).
+- `THIRD_PARTY_NOTICES.md` (root, summarizing the open-source Go modules in `go.mod` and `go.sum` and the exact licenses for `sherpa-onnx`, `ONNX Runtime`, `miniaudio`, `Pion Opus`, the NVIDIA Parakeet models, `whatsmeow`, `Bubble Tea`, `go-sqlite3`, `qrterminal`, `protobuf`, and `yaml.v3`).
+
+`THIRD_PARTY_NOTICES.md` must remain at the repository root because `scripts/package-native.sh:83` copies it into every native release archive, `package.json` lists it in the npm `files` array, `internal/updater/install.go` validates its presence in the released bundle, and `internal/updater/install_test.go` depends on its byte identity. It is a licensing notice, not editorial documentation, and belongs in the archive root beside `LICENSE`. See [Security and privacy](../security/02-security.md) for the secret-handling contract.
 
 After every native job succeeds, the publish job creates `checksums.txt`, attaches all archives and checksums to the already-published GitHub Release, and publishes the npm wrapper. Stable releases use npm's `latest` distribution tag; GitHub prereleases use `next`. npm publication is not optional or silently skipped, so a missing or invalid publisher configuration fails the release visibly.
 

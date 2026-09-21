@@ -1,5 +1,13 @@
 # Configuration application matrix
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** Live vs. restart-bound setting rows and their validation/verification boundaries.
+- **Feeds into:** internal/config
+- **Related:** [Configuration](01-configuration.md)
+
 Every setting below is exposed by the shared typed catalog used by the TUI, slash commands, and plain CLI. The structured route array uses JSON as its command/form value while remaining ordinary YAML on disk. All rows use the serialized `app.Service.ApplySettings` path: validate, atomically save private YAML, reload that canonical file into the shared process snapshot before returning, and notify runtime owners. Subsequent operations read the refreshed snapshot; minimal direct hooks refresh cached orchestrator controls. Active channels and in-flight work are preserved while their supervisors consume the new snapshot. The three extension rows are the sole restart exception.
 
 | Setting | Prior behavior | Runtime owner and final effect | Validation / application | Verification boundary |

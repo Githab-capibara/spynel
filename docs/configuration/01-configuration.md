@@ -1,5 +1,13 @@
 # Configuration
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** The canonical `.spynel/config.yaml`, path rules, validation, and live-change behavior.
+- **Feeds into:** docs/configuration/02-settings-matrix.md
+- **Related:** [Configuration application matrix](02-settings-matrix.md), [Persistent instructions](../workflows/02-persistent-instructions.md)
+
 Every eligible task transition directly starts one ordinary notification-agent job. `notify.on` tells that agent which outcomes may use the task's stable origin; the agent decides whether to call the ordinary notification CLI and edits task progress itself.
 
 `.spynel/config.yaml` is the user-editable project configuration inside the fixed private `.spynel` state directory. Spynel searches parent directories for that path, while relative configuration paths resolve from the workspace root one directory above `.spynel`, not from the process's current directory. On bare interactive startup only, an uninitialized launch directory with an initialized ancestor produces a pre-startup choice to use that parent, initialize locally, or exit. The parent choice is the default and changes the process working directory to the selected root before election; explicit config targets, server mode, and automation keep ordinary deterministic discovery without prompting. Unknown fields fail explicitly. The sole compatibility normalization accepts the retired `channels.tui.enabled` key, discards it, and omits it from the next canonical save.

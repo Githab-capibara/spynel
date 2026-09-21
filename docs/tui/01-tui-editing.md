@@ -1,5 +1,13 @@
 # TUI editing and terminal checks
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** Selection, editing, copy/paste, undo/redo, F6 static copy, and terminal restoration contracts.
+- **Feeds into:** internal/channel/tui
+- **Related:** [Communication integrations](../channels/01-integrations.md)
+
 The TUI selects logical text. Soft wraps, panel padding, inline-code padding,
 scrollbars, and ANSI sequences do not become copied text. Source newlines,
 indentation, tabs, and empty lines remain meaningful.

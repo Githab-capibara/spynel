@@ -1,5 +1,13 @@
 # Persistent per-agent instructions
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** The five workspace-owner per-role instruction files, their precedence, and safe-file constraints.
+- **Feeds into:** internal/instructions
+- **Related:** [Configuration](../configuration/01-configuration.md)
+
 Each initialized Spynel workspace has five owner-editable Markdown files:
 
 | Role | File | Sessions |

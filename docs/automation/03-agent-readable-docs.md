@@ -1,5 +1,13 @@
 # Agent-readable documentation
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** The offline, compiled `spynel docs` catalog, its versioned JSON schema, and safe-content rules.
+- **Feeds into:** internal/agentdocs
+- **Related:** [Plain CLI and automation](01-cli-and-automation.md)
+
 `spynel docs` is the stable offline interface for product behavior. It is compiled into the binary, never invokes a coding harness, and does not require an initialized workspace, primary server, local API, or network connection.
 
 ## Interface and schema

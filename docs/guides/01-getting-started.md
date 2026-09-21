@@ -1,5 +1,13 @@
 # Getting started and development
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** Install, launch, and first engagement in minutes, plus development-checkout workflows.
+- **Feeds into:** docs/guides/02-troubleshooting.md
+- **Related:** [Configuration](../configuration/01-configuration.md), [Troubleshooting](02-troubleshooting.md)
+
 Spynel supports standalone script installation and the unscoped npm package on Linux and macOS. Both amd64 and arm64 are supported.
 
 ## Public-release quick start

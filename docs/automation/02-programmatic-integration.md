@@ -1,5 +1,13 @@
 # Programmatic integration (v1)
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** The supported v1 HTTP/NDJSON contract, admission and replay semantics, and private Unix socket.
+- **Feeds into:** docs/automation/03-agent-readable-docs.md
+- **Related:** [Plain CLI and automation](01-cli-and-automation.md), [Agent-readable documentation](03-agent-readable-docs.md)
+
 Spynel can be the communication control plane for a development sandbox. Its
 existing application service owns conversations, harness dispatch, jobs, history,
 and ordinary task/goal notification delivery. The interface is provider-neutral;

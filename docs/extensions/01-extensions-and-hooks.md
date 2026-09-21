@@ -1,5 +1,13 @@
 # Extensions and hooks
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** Trusted executable extensions, the JSON hook contract, at-least-once delivery, and restart-bound controls.
+- **Feeds into:** docs/security/02-security.md
+- **Related:** [Security and privacy](../security/02-security.md)
+
 Spynel uses portable executable hooks instead of Go's platform/toolchain-coupled plugin mechanism. Install repositories only after review:
 
 ```bash

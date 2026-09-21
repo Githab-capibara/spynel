@@ -1,6 +1,11 @@
 # Security
 
 - **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** Trust boundaries, secret handling, executable trust, and instruction precedence.
+- **Feeds into:** internal/channel, internal/app
 - **Related:** [Provider-Canary Threat Model](01-provider-canary-threat-model.md), `spynel docs security`, channel authorization in [Communication Integrations](../channels/01-integrations.md)
 
 Trust boundaries, secret handling, and safe documentation for Spynel.
@@ -24,6 +29,8 @@ Treat the following as sensitive and never place them in static documentation, s
 - arbitrary environment values.
 
 `spynel jobs` output is centrally redacted and terminal-control sanitized, but it remains private debugging material. Live state lives in `spynel status`, `jobs`, `tasks`, `goals`, and `log`; running `spynel docs` never reads it.
+
+Licenses and copyright notices are the exception: the root [`THIRD_PARTY_NOTICES.md`](../../THIRD_PARTY_NOTICES.md) summarizes open-source components and their licenses, and ships inside every release archive. The license text at [`LICENSE`](../../LICENSE) and the notices under [`third_party/`](../../third_party/) are publication-safe by design; see [Releasing](../releasing/01-releasing.md) for the full packaging contract.
 
 ## Instruction precedence
 

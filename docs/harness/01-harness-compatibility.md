@@ -1,5 +1,13 @@
 # Coding harness compatibility
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** Evidence-backed lifecycle coverage across Codex, Claude Code, Agent Zero CLI, Pi, and ACP.
+- **Feeds into:** docs/security/01-provider-canary-threat-model.md
+- **Related:** [Provider-Canary Threat Model](../security/01-provider-canary-threat-model.md)
+
 This document is the compatibility baseline for Spynel's built-in coding
 harnesses. It separates provider documentation, behavior exercised by Spynel's
 deterministic tests, and behavior that still needs a real-provider or native-OS

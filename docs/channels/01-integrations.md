@@ -1,5 +1,13 @@
 # Communication integrations
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** Telegram, WhatsApp, TUI, and voice setup, authorization, pairing, and response-delivery behavior.
+- **Feeds into:** docs/tui/01-tui-editing.md, docs/security/02-security.md
+- **Related:** [TUI editing and terminal checks](../tui/01-tui-editing.md), [Security and privacy](../security/02-security.md)
+
 Every terminal or actionable unscheduled waiting task transition directly starts one ordinary notification-agent job. Optional `notify.on` metadata tells that agent which outcomes may use the task's origin.
 
 Spynel's communication pillar gives one human a consistent assistant-facing relationship without making Spynel itself an AI agent. The classic program routes the TUI, Telegram, WhatsApp, and plain CLI through the same application handler, while external coding harnesses supply intelligence. Slash commands, typed settings, hooks, history isolation, job tracking, stopping, and harness dispatch therefore stay consistent across transports; visual Markdown presentation remains channel-specific.

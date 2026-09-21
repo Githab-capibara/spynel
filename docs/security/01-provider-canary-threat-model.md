@@ -1,5 +1,13 @@
 # Isolated provider-canary threat model
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** Mandatory safety and execution design for a real-provider compatibility canary.
+- **Feeds into:** docs/harness/01-harness-compatibility.md
+- **Related:** [Coding harness compatibility](../harness/01-harness-compatibility.md), [Security and privacy](02-security.md)
+
 This document is the mandatory safety and execution design for a real Codex
 CLI/app-server or Claude Code CLI compatibility canary. It does not authorize a
 run. It deliberately contains no credential, executable, provider transcript,

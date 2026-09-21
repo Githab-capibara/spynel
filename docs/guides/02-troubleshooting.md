@@ -1,5 +1,13 @@
 # Troubleshooting
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** Offline checks and bounded live diagnostics for installation, channels, and updates.
+- **Feeds into:** internal/config, internal/harness
+- **Related:** [Getting started](01-getting-started.md), [Harness compatibility](../harness/01-harness-compatibility.md)
+
 Start with:
 
 ```bash

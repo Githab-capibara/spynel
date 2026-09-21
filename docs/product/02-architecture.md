@@ -1,5 +1,13 @@
 # Architecture
 
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** Provider-neutral boundaries, durable control/data flow, and process-lifecycle ownership.
+- **Feeds into:** docs/workflows/01-tasks-and-goals.md
+- **Related:** [Product vision](01-product-vision.md), [Tasks and goals](../workflows/01-tasks-and-goals.md)
+
 Spynel is a classic, non-AI program. Its architecture keeps deterministic communication, state, orchestration, and lifecycle management separate from the intelligence supplied by external coding harnesses. This boundary lets Spynel exploit improving harness capabilities instead of duplicating or competing with them.
 
 Authenticated transport and loopback admission is the workspace authorization boundary for live jobs and durable workflow inspection. The shared application handler returns one global runtime job set and one unfiltered bounded task/goal inventory to Telegram, WhatsApp, TUI, CLI, and API callers; it never treats caller conversation, creation channel, or `notify.origin` as an ACL. Global job rendering replaces live prompt text with a generic label and omits conversation IDs, while detailed inspection retains its strict durable-field allowlist. Notification origin remains independently validated routing metadata for outbound delivery.
