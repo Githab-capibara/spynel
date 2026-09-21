@@ -43,6 +43,7 @@ Direct child DOX files:
 
 | Child | Scope |
 | --- | --- |
+| [adr/AGENTS.md](adr/AGENTS.md) | Architecture decision records. |
 | [automation/AGENTS.md](automation/AGENTS.md) | Plain CLI, programmatic integration, and agent-readable documentation. |
 | [channels/AGENTS.md](channels/AGENTS.md) | Telegram, WhatsApp, and response-delivery behavior. |
 | [configuration/AGENTS.md](configuration/AGENTS.md) | Configuration and settings matrix. |

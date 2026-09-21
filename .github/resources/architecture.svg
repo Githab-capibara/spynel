@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" font-family="Inter, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#0a0f1c"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#60a5fa"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" rx="16" fill="url(#bg)"/>
+
+  <text x="40" y="52" fill="#f8fafc" font-size="26" font-weight="700">Spynel architecture</text>
+  <text x="40" y="76" fill="#94a3b8" font-size="14">One human → one agent → infinite agents · Simplicity at scale.</text>
+
+  <g font-size="13">
+    <!-- Channels / composition -->
+    <rect x="40" y="110" width="260" height="120" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="60" y="136" fill="#e2e8f0" font-weight="600">Transport &amp; composition</text>
+    <text x="60" y="158" fill="#94a3b8">TUI · Telegram · WhatsApp</text>
+    <text x="60" y="176" fill="#94a3b8">Plain CLI · loopback API</text>
+    <text x="60" y="194" fill="#64748b">cmd/spynel composes only</text>
+    <text x="60" y="212" fill="#64748b">channels never call harnesses</text>
+
+    <!-- Application -->
+    <rect x="360" y="110" width="240" height="120" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="380" y="136" fill="#e2e8f0" font-weight="600">Application service</text>
+    <text x="380" y="158" fill="#94a3b8">Provider-neutral messages</text>
+    <text x="380" y="176" fill="#94a3b8">Shared commands &amp; screens</text>
+    <text x="380" y="194" fill="#94a3b8">Status / jobs / tasks / goals</text>
+    <text x="380" y="212" fill="#64748b">atomic save-and-reload config</text>
+
+    <!-- Harness supervisor -->
+    <rect x="360" y="300" width="240" height="120" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="380" y="326" fill="#e2e8f0" font-weight="600">Harness supervisor</text>
+    <text x="380" y="348" fill="#94a3b8">one live harness at a time</text>
+    <text x="380" y="366" fill="#94a3b8">Codex · Claude Code · Pi</text>
+    <text x="380" y="384" fill="#94a3b8">Agent Zero CLI · ACP v1</text>
+    <text x="380" y="402" fill="#64748b">harness.Harness interface</text>
+
+    <!-- Durable state -->
+    <rect x="680" y="110" width="240" height="120" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="700" y="136" fill="#e2e8f0" font-weight="600">Orchestrator</text>
+    <text x="700" y="158" fill="#94a3b8">Markdown task / goal planes</text>
+    <text x="700" y="176" fill="#94a3b8">leased phases &amp; recovery</text>
+    <text x="700" y="194" fill="#94a3b8">notification &amp; heartbeat agents</text>
+    <text x="700" y="212" fill="#64748b">## Progress journaling</text>
+
+    <rect x="680" y="300" width="240" height="120" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="700" y="326" fill="#e2e8f0" font-weight="600">Workspace state</text>
+    <text x="700" y="348" fill="#94a3b8">.spynel/config.yaml</text>
+    <text x="700" y="366" fill="#94a3b8">tasks/ · goals/ · histories · leases</text>
+    <text x="700" y="384" fill="#94a3b8">instructions/ · extensions/</text>
+    <text x="700" y="402" fill="#64748b">single fixed state directory</text>
+
+    <!-- Primary election -->
+    <rect x="40" y="300" width="260" height="120" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="60" y="326" fill="#e2e8f0" font-weight="600">Primary election</text>
+    <text x="60" y="348" fill="#94a3b8">one owner per workspace</text>
+    <text x="60" y="366" fill="#94a3b8">5 s heartbeat · 30 s takeover</text>
+    <text x="60" y="384" fill="#94a3b8">authenticated loopback API</text>
+    <text x="60" y="402" fill="#64748b">fenced stale-owner recovery</text>
+  </g>
+
+  <g stroke="#475569" stroke-width="1.5" fill="none">
+    <!-- channels -> application -->
+    <path d="M300 170 H360"/>
+    <!-- application -> orchestrator -->
+    <path d="M600 170 H680"/>
+    <path d="M600 210 C660 230 660 240 700 240"/>
+    <path d="M660 240 L660 220 M660 240 L640 238"/>
+    <!-- application -> supervisor -->
+    <path d="M480 230 V300" marker-end="url(#arrow)"/>
+    <!-- orchestrator -> workspace -->
+    <path d="M800 230 V300" marker-end="url(#arrow)"/>
+    <!-- primary election <-> application -->
+    <path d="M170 230 C200 270 300 270 360 250"/>
+    <path d="M170 230 V300" marker-end="url(#arrow)"/>
+  </g>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <text x="40" y="462" fill="#64748b" font-size="12">External intelligence: coding harnesses only, never duplicated by Spynel itself.</text>
+  <text x="40" y="482" fill="#475569" font-size="12">Diagram reflects the durable architecture documentation in docs/product/02-architecture.md and docs/adr/.</text>
+</svg>

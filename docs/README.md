@@ -15,6 +15,7 @@ The repository documentation index for Spynel. The root README explains what Spy
 
 | Folder | Scope | Index |
 | --- | --- | --- |
+| [adr](adr/README.md) | Architecture decision records. | [Directory index](adr/README.md) |
 | [product](product/README.md) | Vision and architecture. | [Directory index](product/README.md) |
 | [guides](guides/README.md) | Getting started and troubleshooting. | [Directory index](guides/README.md) |
 | [configuration](configuration/README.md) | Settings and live change matrix. | [Directory index](configuration/README.md) |
@@ -35,6 +36,7 @@ The repository documentation index for Spynel. The root README explains what Spy
 - [Programmatic Integration](automation/02-programmatic-integration.md) — the v1 HTTP/NDJSON contract, replay, and private Unix sockets.
 - [Persistent Instructions](workflows/02-persistent-instructions.md) — workspace-level preferences, role mapping, and precedence.
 - [Coding Harness Compatibility](harness/01-harness-compatibility.md) — evidence-backed lifecycle coverage and known gaps.
+- [Architecture Decision Records](adr/README.md) — durable reasons behind Spynel's non-obvious architectural choices.
 - [Extensions and Hooks](extensions/01-extensions-and-hooks.md) — trusted executable extensions and delivery guarantees.
 - [Agent-Readable Documentation](automation/03-agent-readable-docs.md) — the offline `spynel docs` interface and its versioned JSON schema.
 - [Releasing](releasing/01-releasing.md) — native packaging, npm publication, credentials, and release verification.

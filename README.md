@@ -5,6 +5,10 @@
 <p align="center">
   <a href="https://agent-zero.ai"><img alt="Website" src="https://img.shields.io/badge/www-agent--zero.ai-0A192F?style=flat&amp;logo=googlechrome&amp;logoColor=white"></a>
   &nbsp;
+  <a href="https://github.com/agent0ai/spynel"><img alt="GitHub" src="https://img.shields.io/github/stars/agent0ai/spynel?style=flat&amp;logo=github&amp;label=Stars&amp;color=181717"></a>
+  &nbsp;
+  <a href="https://opensource.org/licenses/MIT"><img alt="License" src="https://img.shields.io/badge/License-MIT-yellow?style=flat"></a>
+  &nbsp;
   <a href="https://discord.gg/B8KZKNsPpj"><img alt="Discord" src="https://img.shields.io/badge/Discord-5865F2?style=flat&amp;logo=discord&amp;logoColor=white"></a>
   &nbsp;
   <a href="https://x.com/Agent0ai"><img alt="X" src="https://img.shields.io/badge/X-000000?style=flat&amp;logo=x&amp;logoColor=white"></a>
@@ -12,6 +16,8 @@
   <a href="https://www.youtube.com/@AgentZeroFW"><img alt="YouTube" src="https://img.shields.io/badge/YouTube-FF0000?style=flat&amp;logo=youtube&amp;logoColor=white"></a>
   &nbsp;
   <a href="https://github.com/sponsors/agent0ai"><img alt="GitHub Sponsors" src="https://img.shields.io/badge/Sponsors-FF69B4?style=flat&amp;logo=githubsponsors&amp;logoColor=white"></a>
+  &nbsp;
+  <a href="https://github.com/agent0ai/spynel/issues"><img alt="GitHub Issues" src="https://img.shields.io/badge/Issues-181717?style=flat&amp;logo=github&amp;logoColor=white"></a>
 </p>
 
   <em>Using more agents should not mean spending more time managing agents - that's not leverage.<br> I want to have one communication channel to all my work. One assistant to talk to. One that will do all the management and scaling instead of me.</em>
@@ -95,19 +101,27 @@ Use `/config` for setup.
 
 ## Documentation
 
-- **Start here:** [Getting started and development](docs/guides/01-getting-started.md)
-- **Configure Spynel:** [Configuration](docs/configuration/01-configuration.md)
-- **Use the TUI, Telegram, WhatsApp, and voice:** [Communication integrations](docs/channels/01-integrations.md) and [TUI editing guide](docs/tui/01-tui-editing.md)
-- **Choose a coding harness:** [Harness compatibility](docs/harness/01-harness-compatibility.md)
-- **Coordinate durable work:** [Tasks and goals](docs/workflows/01-tasks-and-goals.md) and [architecture](docs/product/02-architecture.md)
-- **Understand the system and its security boundaries:** [Security and privacy](docs/security/02-security.md) and [provider-canary threat model](docs/security/01-provider-canary-threat-model.md)
-- **Automate from the terminal:** [CLI and automation](docs/automation/01-cli-and-automation.md), [programmatic integration](docs/automation/02-programmatic-integration.md), and [agent-readable docs](docs/automation/03-agent-readable-docs.md)
-- **Install trusted hooks:** [Extensions](docs/extensions/01-extensions-and-hooks.md)
-- **Build and publish releases:** [Releasing and packaging](docs/releasing/01-releasing.md)
-- **Diagnose common setup problems:** [Troubleshooting](docs/guides/02-troubleshooting.md)
-- **Read the product principles:** [Product vision](docs/product/01-product-vision.md)
+| Topic | Guide |
+| --- | --- |
+| Start here | [Getting started and development](docs/guides/01-getting-started.md) |
+| Configure Spynel | [Configuration](docs/configuration/01-configuration.md) |
+| Communication integrations | [TUI, Telegram, WhatsApp, and voice](docs/channels/01-integrations.md) and [TUI editing guide](docs/tui/01-tui-editing.md) |
+| Coding harnesses | [Harness compatibility](docs/harness/01-harness-compatibility.md) |
+| Durable work | [Tasks and goals](docs/workflows/01-tasks-and-goals.md) and [architecture](docs/product/02-architecture.md) |
+| Security and privacy | [Security and privacy](docs/security/02-security.md) and [provider-canary threat model](docs/security/01-provider-canary-threat-model.md) |
+| Automation | [CLI and automation](docs/automation/01-cli-and-automation.md), [programmatic integration](docs/automation/02-programmatic-integration.md), and [agent-readable docs](docs/automation/03-agent-readable-docs.md) |
+| Trusted hooks | [Extensions](docs/extensions/01-extensions-and-hooks.md) |
+| Releases | [Releasing and packaging](docs/releasing/01-releasing.md) |
+| Troubleshooting | [Diagnose common setup problems](docs/guides/02-troubleshooting.md) |
+| Product | [Product vision](docs/product/01-product-vision.md) and [architecture decision records](docs/adr/README.md) |
 
 See the [documentation index](docs/README.md) for the complete guide map.
+
+## Architecture
+
+<p align="center">
+  <img src=".github/resources/architecture.svg" alt="Spynel architecture: channels and TUI translate through the application boundary to the harness-neutral supervisor and durable workspace state" width="100%">
+</p>
 
 ## Uninstall
 

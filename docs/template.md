@@ -7,7 +7,7 @@ Spynel documentation follows four fixed shapes. This file is the master referenc
 - Filenames are lowercase kebab-case with a two-digit numeric prefix: `01-getting-started.md`.
 - The prefix numbers documents in reading order within a folder. Reuse never happens; when a document is removed, later documents keep their numbers.
 - Audience and `spynel docs` topic classification stay localized to the owning folder.
-- Folder names describe the topic (product, guides, configuration, channels, automation, workflows, harness, security, extensions, releasing, tui). Never create generic "report", "misc", or "other" namespaces.
+- Folder names describe the topic (adr, product, guides, configuration, channels, automation, workflows, harness, security, extensions, releasing, tui). Never create generic "report", "misc", or "other" namespaces.
 - Every folder keeps its own `AGENTS.md`, `README.md` (the table index), and `template.md`.
 - Additions, removals, or renames update the folder README index and owning `AGENTS.md` (DOX) immediately.
 - Content is English. "Report" never appears as a folder or document scope word.
