@@ -1,8 +1,9 @@
 # 02. Keep a Harness-Neutral Composition Boundary
 
-## Status
-
-Accepted
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Related:** [Harness compatibility](../harness/01-harness-compatibility.md) · [Architecture](../product/02-architecture.md)
 
 ## Context
 

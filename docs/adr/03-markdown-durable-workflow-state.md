@@ -1,8 +1,9 @@
 # 03. Make Markdown Files the Durable Workflow State
 
-## Status
-
-Accepted
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Related:** [Tasks and goals](../workflows/01-tasks-and-goals.md)
 
 ## Context
 

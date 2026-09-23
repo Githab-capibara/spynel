@@ -1,4 +1,4 @@
-# Isolated provider-canary threat model
+# 01. Isolated provider-canary threat model
 
 - **Status:** Accepted
 - **Date:** 2026-09-17

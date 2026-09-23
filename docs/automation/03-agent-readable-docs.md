@@ -1,4 +1,4 @@
-# Agent-readable documentation
+# 03. Agent-readable documentation
 
 - **Status:** Accepted
 - **Date:** 2026-09-17

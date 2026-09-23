@@ -1,4 +1,4 @@
-# Communication integrations
+# 01. Communication integrations
 
 - **Status:** Accepted
 - **Date:** 2026-09-17
@@ -72,7 +72,7 @@ The TUI loads only a fixed newest display tail from its selected history. An own
 
 ## Telegram
 
-Telegram uses the HTTPS Bot API directly. Polling clears a prior webhook without dropping pending updates and then long-polls. Webhook mode binds the configured local listener, registers a private derived path below the public URL, optionally verifies Telegram's secret header, and processes a bounded queue. Both modes call `getMe` for mention/reply group policy.
+Telegram uses the HTTPS Bot API directly. Polling clears a prior webhook without dropping pending updates and then long-polls. Webhook mode binds the configured local listener, registers a private derived path below the public URL, requires Telegram's secret-header verification, and processes a bounded queue. Both modes call `getMe` for mention/reply group policy.
 
 The allow-list accepts positive numeric user IDs and case-insensitive ASCII usernames made from letters, digits, and underscores, with or without a leading `@`, and must contain at least one valid entry before Telegram can be enabled. The adapter resolves the current live list before startup, every inbound update, provider API call, webhook bind, and proactive delivery. Missing, malformed, or revoked authorization publishes a persistent connection error, attempts no provider or listener side effect, and is not retried until channel configuration changes. Every inbound update repeats this check before identity persistence, media, typing, command or agent dispatch, replies, attachments, and hooks. When an authenticated private inbound update matches a username entry, Spynel stores a minimal verified username-to-numeric-ID mapping under private runtime state so restart-safe proactive notifications can use the stable `TG-<user-id>` origin. Removing the username (and any matching numeric ID) revokes delivery immediately even if that mapping remains on disk. The form and wizard link to the third-party [@userinfobot](https://t.me/userinfobot) helper for discovering numeric IDs. Telegram's verified `getMe` identity is carried with live connection status, and `/telegram` renders the bot's `@username` as a clickable `t.me` link. In groups, `mention` responds to an `@bot` mention or reply, `all` handles every eligible message, and `off` ignores groups. New-member welcome messages, notices, and retention cleanup are optional advanced controls.
 

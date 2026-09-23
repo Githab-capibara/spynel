@@ -1,8 +1,9 @@
 # 01. Elect One Primary Server per Workspace
 
-## Status
-
-Accepted
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Related:** [Architecture](../product/02-architecture.md) · [Troubleshooting](../guides/02-troubleshooting.md)
 
 ## Context
 

@@ -1,8 +1,9 @@
 # 04. Commit Live Settings Through a Serialized Save-and-Reload Boundary
 
-## Status
-
-Accepted
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Related:** [Configuration](../configuration/01-configuration.md)
 
 ## Context
 

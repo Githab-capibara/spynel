@@ -1,4 +1,4 @@
-# Getting started and development
+# 01. Getting started and development
 
 - **Status:** Accepted
 - **Date:** 2026-09-17

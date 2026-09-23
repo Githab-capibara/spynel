@@ -1,4 +1,4 @@
-# TUI editing and terminal checks
+# 01. TUI editing and terminal checks
 
 - **Status:** Accepted
 - **Date:** 2026-09-17

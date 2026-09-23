@@ -1,8 +1,9 @@
 # 05. Keep Update and Uninstall Ownership Installation-Local
 
-## Status
-
-Accepted
+- **Status:** Accepted
+- **Date:** 2026-09-17
+- **Deciders:** @Githab-capibara
+- **Related:** [Releasing](../releasing/01-releasing.md) · [Getting Started](../guides/01-getting-started.md)
 
 ## Context
 

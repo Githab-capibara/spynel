@@ -1,4 +1,4 @@
-# Configuration application matrix
+# 02. Configuration application matrix
 
 - **Status:** Accepted
 - **Date:** 2026-09-17

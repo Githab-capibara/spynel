@@ -1,4 +1,4 @@
-# Tasks and goals
+# 01. Tasks and goals
 
 - **Status:** Accepted
 - **Date:** 2026-09-17
@@ -44,4 +44,4 @@ In a conversation, `/task` and `/goal` ask the communication assistant to create
 
 Selected task outcomes may carry an authorized notification origin. Every terminal or actionable unscheduled waiting transition directly starts one ordinary notification-agent job with the task and `spynel notify` guidance. The agent decides, calls the ordinary CLI when useful, and edits task progress with its send, skip, or CLI-failure result. Separately, the heartbeat agent may decide from bounded progress that an inactive user wait merits a reminder, use `--recent-authorized`, and journal the result. Spynel provides recent authorized channel resolution and ordinary delivery but no reminder scheduler or state. A user reply remains ordinary conversation context rather than a hidden workflow acknowledgement.
 
-For the state machine, lease, recovery, notification, and primary-owner invariants, see [architecture](../product/02-architecture.md). For command syntax and output contracts, see [plain CLI and automation](../automation/01-cli-and-automation.md). For route and review settings, see [configuration](../configuration/01-configuration.md).
+For the state machine, lease, recovery, notification, and primary-owner invariants, see [architecture](../product/02-architecture.md). For command syntax and output contracts, see [plain CLI and automation](../automation/01-cli-and-automation.md). For task-management and review settings, see [configuration](../configuration/01-configuration.md).

@@ -1,4 +1,4 @@
-# Persistent per-agent instructions
+# 02. Persistent per-agent instructions
 
 - **Status:** Accepted
 - **Date:** 2026-09-17

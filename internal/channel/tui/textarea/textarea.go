@@ -31,7 +31,6 @@ const (
 	defaultMaxHeight = 99
 	defaultMaxWidth  = 500
 
-	// XXX: in v2, make max lines dynamic and default max lines configurable.
 	maxLines = 10000
 )
 
@@ -1182,8 +1181,6 @@ func (m Model) View() string {
 // formatLineNumber formats the line number for display dynamically based on
 // the maximum number of lines.
 func (m Model) formatLineNumber(x any) string {
-	// XXX: ultimately we should use a max buffer height, which has yet to be
-	// implemented.
 	digits := len(strconv.Itoa(m.MaxHeight))
 	return fmt.Sprintf(" %*v ", digits, x)
 }

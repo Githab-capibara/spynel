@@ -1,4 +1,4 @@
-# Architecture
+# 02. Architecture
 
 - **Status:** Accepted
 - **Date:** 2026-09-17

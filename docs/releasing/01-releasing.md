@@ -1,4 +1,4 @@
-# Releasing
+# 01. Releasing
 
 - **Status:** Accepted
 - **Date:** 2026-09-17

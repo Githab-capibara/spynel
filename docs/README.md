@@ -25,6 +25,7 @@ The repository documentation index for Spynel. The root README explains what Spy
 | [harness](harness/README.md) | Coding-harness compatibility. | [Directory index](harness/README.md) |
 | [security](security/README.md) | Threat model and provider-canary gating. | [Directory index](security/README.md) |
 | [extensions](extensions/README.md) | Trusted executable extensions and hooks. | [Directory index](extensions/README.md) |
+| [governance](governance/README.md) | Contribution, security reporting, and code of conduct. | [Directory index](governance/README.md) |
 | [releasing](releasing/README.md) | Release, packaging, and update mechanics. | [Directory index](releasing/README.md) |
 | [tui](tui/README.md) | TUI editing and terminal checks. | [Directory index](tui/README.md) |
 
@@ -48,6 +49,7 @@ The repository documentation index for Spynel. The root README explains what Spy
 | [AGENTS.md](AGENTS.md) | Owning documentation contracts and the child-DOX index. |
 | [README.md](README.md) | This master directory index (Start here / Directory map / Key entry points / Governance). |
 | [template.md](template.md) | The documentation style reference (ADR, design, folder, and project shapes). |
+| [Governance](governance/README.md) | Contribution workflow, security reporting, and code of conduct. |
 
 Each folder owns `AGENTS.md`, `README.md`, and `template.md`; add, remove, or rename entries through those files and keep the mapping above current.
 

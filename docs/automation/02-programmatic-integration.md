@@ -1,4 +1,4 @@
-# Programmatic integration (v1)
+# 02. Programmatic integration (v1)
 
 - **Status:** Accepted
 - **Date:** 2026-09-17

@@ -1,4 +1,4 @@
-# Product vision
+# 01. Product vision
 
 - **Status:** Accepted
 - **Date:** 2026-09-17

@@ -1,4 +1,4 @@
-# Security
+# 02. Security
 
 - **Status:** Accepted
 - **Date:** 2026-09-17

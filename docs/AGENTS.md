@@ -48,6 +48,7 @@ Direct child DOX files:
 | [channels/AGENTS.md](channels/AGENTS.md) | Telegram, WhatsApp, and response-delivery behavior. |
 | [configuration/AGENTS.md](configuration/AGENTS.md) | Configuration and settings matrix. |
 | [extensions/AGENTS.md](extensions/AGENTS.md) | Trusted executable extensions and hooks. |
+| [governance/AGENTS.md](governance/AGENTS.md) | Contribution workflow, security reporting, and code of conduct. |
 | [guides/AGENTS.md](guides/AGENTS.md) | Getting started and troubleshooting guides. |
 | [harness/AGENTS.md](harness/AGENTS.md) | Coding-harness compatibility. |
 | [product/AGENTS.md](product/AGENTS.md) | Product vision and architecture. |

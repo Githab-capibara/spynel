@@ -1,4 +1,4 @@
-# Configuration
+# 01. Configuration
 
 - **Status:** Accepted
 - **Date:** 2026-09-17

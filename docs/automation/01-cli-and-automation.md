@@ -1,4 +1,4 @@
-# Plain CLI and automation
+# 01. Plain CLI and automation
 
 - **Status:** Accepted
 - **Date:** 2026-09-17

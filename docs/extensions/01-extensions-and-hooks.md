@@ -1,4 +1,4 @@
-# Extensions and hooks
+# 01. Extensions and hooks
 
 - **Status:** Accepted
 - **Date:** 2026-09-17
