@@ -1,4 +1,4 @@
-# 04. Commit Live Settings Through a Serialized Save-and-Reload Boundary
+# 04. Commit live settings through a serialized save-and-reload boundary
 
 - **Status:** Accepted
 - **Date:** 2026-09-17
@@ -7,7 +7,7 @@
 
 ## Context
 
-Spynel exposes many live settings across communications, harnesses, and themes. If every owner cached its own copy and applied changes independently, commands and channels would diverge and in-flight work would see half-new configuration. A validated change must be visible to the whole process as one atomic snapshot.
+Spynel exposes many live settings across communications, harnesses, and themes. If every owner cached its own copy and applied changes independently, commands and channels would diverge and in-flight work would see half-new configuration. A validated change must be visible to the whole process as one atomic snapshot. The catalog and save boundary are documented in [Configuration](../configuration/01-configuration.md).
 
 ## Decision
 

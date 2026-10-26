@@ -1,6 +1,23 @@
 # Channels Template
 
-Documents here describe Telegram and WhatsApp setup and delivery. Start from the master [`../template.md`](../template.md).
+Documents here describe TUI, Telegram, and WhatsApp setup and delivery. Start from the master [`../template.md`](../template.md).
+
+## Document skeleton
+
+Every document in this folder starts from the master design-document header:
+
+```markdown
+# NN. Title
+
+- **Status:** Research note | Accepted
+- **Date:** YYYY-MM-DD
+- **Deciders:** @Githab-capibara
+- **Researcher:** document_specialist agent
+- **Purpose:** ...
+- **Feeds into:** docs/...
+- **Related:** links to sibling documents
+```
+
 
 ## Transport section skeleton
 

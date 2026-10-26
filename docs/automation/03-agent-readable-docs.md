@@ -8,7 +8,7 @@
 - **Feeds into:** internal/agentdocs
 - **Related:** [Plain CLI and automation](01-cli-and-automation.md)
 
-`spynel docs` is the stable offline interface for product behavior. It is compiled into the binary, never invokes a coding harness, and does not require an initialized workspace, primary server, local API, or network connection.
+`spynel docs` is the stable offline interface for product behavior (command forms in the [plain CLI and automation](01-cli-and-automation.md)). It is compiled into the binary, never invokes a coding harness, and does not require an initialized workspace, primary server, local API, or network connection.
 
 ## Interface and schema
 
@@ -21,6 +21,8 @@ spynel docs search QUERY [page NUMBER] [--format text|json]
 ```
 
 Ordinary documents render whole. Oversized documents split only at topic/section/result boundaries under a deterministic 10,000-token page budget, conservatively estimated as one token per three Unicode runes. A record larger than that budget remains intact rather than splitting its paragraph, code block, table, references, or JSON object. Split pages report the applied budget and page estimate. A separate maximum of 128 entries, 64 KiB, and 48 Ki-runes bounds every representation. Text is deterministic Markdown without terminal escapes. JSON uses `schema_version: spynel.docs/v1` and returns `kind`, stable topic/section `id` values, `title`, `summary` or `content`, `related` references, and page number/total/entry/byte/rune metadata. Error documents use `kind: error` with a stable code, actionable message, optional suggestion, and valid topic IDs. Invalid requests exit nonzero.
+
+The stable topic IDs are `integration`, `commands`, `persistent-instructions`, `tasks`, `goals`, `reviews`, `notifications`, `jobs`, `logs`, `configuration`, `channels`, `harnesses`, `instances-primary`, `workspace-state`, `security`, `troubleshooting`, `architecture`, and `extensions`. Six of them also carry a concise channel `/help` body under its own help ID: `commands`, `workflows` (topic `tasks`), `config` (topic `configuration`), `channels`, `about` (topic `workspace-state`), and `extensions`. `/help` indexes those six summaries only; it never inlines a full topic.
 
 Static content is classified as `user-command`, `workflow-contract`, `implementation-architecture`, or `runtime-state`. The last classification documents how to query live state; it never embeds current values.
 

@@ -8,7 +8,7 @@
 - **Feeds into:** docs/security/02-security.md
 - **Related:** [Security and privacy](../security/02-security.md)
 
-Spynel uses portable executable hooks instead of Go's platform/toolchain-coupled plugin mechanism. Install repositories only after review:
+Spynel uses portable executable hooks instead of Go's platform/toolchain-coupled plugin mechanism. Hooks run with Spynel's own authority, so the trust boundary is documented in [Security](../security/02-security.md). Install repositories only after review:
 
 ```bash
 spynel extension install GIT_URL [NAME]

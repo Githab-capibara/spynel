@@ -4,7 +4,7 @@ The repository documentation index for Spynel. The root README explains what Spy
 
 ## Start here
 
-| Guide | Purpose |
+| Document | Purpose |
 | --- | --- |
 | [Getting Started](guides/01-getting-started.md) | Install, launch, and first engagement in minutes. |
 | [Product Vision](product/01-product-vision.md) | What Spynel is, the three pillars, and the relationship slogan. |
@@ -13,21 +13,21 @@ The repository documentation index for Spynel. The root README explains what Spy
 
 ## Directory map
 
-| Folder | Scope | Index |
-| --- | --- | --- |
-| [adr](adr/README.md) | Architecture decision records. | [Directory index](adr/README.md) |
-| [product](product/README.md) | Vision and architecture. | [Directory index](product/README.md) |
-| [guides](guides/README.md) | Getting started and troubleshooting. | [Directory index](guides/README.md) |
-| [configuration](configuration/README.md) | Settings and live change matrix. | [Directory index](configuration/README.md) |
-| [channels](channels/README.md) | Telegram and WhatsApp behavior. | [Directory index](channels/README.md) |
-| [automation](automation/README.md) | Plain CLI, programmatic integration, and agent-readable docs. | [Directory index](automation/README.md) |
-| [workflows](workflows/README.md) | Tasks, goals, and persistent instructions. | [Directory index](workflows/README.md) |
-| [harness](harness/README.md) | Coding-harness compatibility. | [Directory index](harness/README.md) |
-| [security](security/README.md) | Threat model and provider-canary gating. | [Directory index](security/README.md) |
-| [extensions](extensions/README.md) | Trusted executable extensions and hooks. | [Directory index](extensions/README.md) |
-| [governance](governance/README.md) | Contribution, security reporting, and code of conduct. | [Directory index](governance/README.md) |
-| [releasing](releasing/README.md) | Release, packaging, and update mechanics. | [Directory index](releasing/README.md) |
-| [tui](tui/README.md) | TUI editing and terminal checks. | [Directory index](tui/README.md) |
+| Folder | Scope |
+| --- | --- |
+| [adr](adr/README.md) | Architecture decision records. |
+| [product](product/README.md) | Vision and architecture. |
+| [guides](guides/README.md) | Getting started and troubleshooting. |
+| [configuration](configuration/README.md) | Settings and live change matrix. |
+| [channels](channels/README.md) | TUI, Telegram, and WhatsApp behavior. |
+| [automation](automation/README.md) | Plain CLI, programmatic integration, and agent-readable docs. |
+| [workflows](workflows/README.md) | Tasks, goals, and persistent instructions. |
+| [harness](harness/README.md) | Coding-harness compatibility. |
+| [security](security/README.md) | Threat model and provider-canary gating. |
+| [extensions](extensions/README.md) | Trusted executable extensions and hooks. |
+| [governance](governance/README.md) | Contribution, security reporting, and code of conduct. |
+| [releasing](releasing/README.md) | Release, packaging, and update mechanics. |
+| [tui](tui/README.md) | TUI editing and terminal checks. |
 
 ## Key entry points
 
@@ -35,7 +35,7 @@ The repository documentation index for Spynel. The root README explains what Spy
 - [Communication Integrations](channels/01-integrations.md) — TUI, Telegram, WhatsApp, voice, histories, and delivery behavior.
 - [Tasks and Goals](workflows/01-tasks-and-goals.md) — durable Markdown workflows, review, recovery, waiting, and notifications.
 - [Programmatic Integration](automation/02-programmatic-integration.md) — the v1 HTTP/NDJSON contract, replay, and private Unix sockets.
-- [Persistent Instructions](workflows/02-persistent-instructions.md) — workspace-level preferences, role mapping, and precedence.
+- [Persistent per-agent instructions](workflows/02-persistent-instructions.md) — workspace-level preferences, role mapping, and precedence.
 - [Coding Harness Compatibility](harness/01-harness-compatibility.md) — evidence-backed lifecycle coverage and known gaps.
 - [Architecture Decision Records](adr/README.md) — durable reasons behind Spynel's non-obvious architectural choices.
 - [Extensions and Hooks](extensions/01-extensions-and-hooks.md) — trusted executable extensions and delivery guarantees.

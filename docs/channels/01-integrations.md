@@ -8,7 +8,7 @@
 - **Feeds into:** docs/tui/01-tui-editing.md, docs/security/02-security.md
 - **Related:** [TUI editing and terminal checks](../tui/01-tui-editing.md), [Security and privacy](../security/02-security.md)
 
-Every terminal or actionable unscheduled waiting task transition directly starts one ordinary notification-agent job. Optional `notify.on` metadata tells that agent which outcomes may use the task's origin.
+Every terminal or actionable unscheduled waiting task transition directly starts one ordinary notification-agent job. Optional `notify.on` task front-matter metadata tells that agent which outcomes may use the task's origin.
 
 Spynel's communication pillar gives one human a consistent assistant-facing relationship without making Spynel itself an AI agent. The classic program routes the TUI, Telegram, WhatsApp, and plain CLI through the same application handler, while external coding harnesses supply intelligence. Slash commands, typed settings, hooks, history isolation, job tracking, stopping, and harness dispatch therefore stay consistent across transports; visual Markdown presentation remains channel-specific.
 
@@ -81,6 +81,8 @@ Text, captions, documents, photos, video, audio, and voice are accepted. Media i
 An ordinary accepted Telegram message starts typing immediately, including during media download and voice transcription for that message, matching the TUI's immediate user-visible communication-turn activity. A leading slash delays activation until the application identifies an agent-backed command, so framework-only commands never flash typing. Background orchestration, proactive outbox sends, and final response or attachment delivery do not activate typing. Telegram documents that a chat action lasts no more than five seconds, so Spynel refreshes every four seconds to leave one second for ordinary scheduler and network jitter. The best-effort requests are individually time-bounded and serialized by one worker per chat; transient failures retry on later ticks without accumulating requests. Each response stream owns one idempotent reference, and the TUI animation and Telegram indicator both retain activity until every overlapping main-agent reference has ended. A released or completed turn therefore cannot silence a newer turn in the same chat or affect another chat, even if its terminal event arrives late. The main-agent terminal event stops activity before final delivery; handler failure, cancellation, panic unwinding, and channel shutdown also clear it. A transport emitter handoff releases the old reference only after the replacement has started, avoiding an ownership gap.
 
 Private history/session identity is `TG-<numeric-user-id>` and group identity is `TG-group-<chat-id>`, so bot restarts reuse the same conversation.
+
+Telegram's `/start` is acknowledged locally with `Spynel is running.` whether it arrives bare, as `/start@bot`, or with a payload. It never dispatches a harness, is deliberately absent from the `/help` catalog, and is rejected as an unknown command on the TUI, CLI, and WhatsApp.
 
 ## WhatsApp
 

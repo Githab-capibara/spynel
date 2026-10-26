@@ -16,6 +16,8 @@ Spynel coordinates external coding harnesses. Coding harnesses and explicitly in
 
 Review extension repositories before installation. Extensions are explicitly installed Git repositories whose declared executable hooks receive bounded JSON over standard streams and run from their repository directory.
 
+Vendored dependency sources and local patches live only under [`third_party/`](../../third_party/), each with its own `AGENTS.md` ownership contract: the Bubble Tea module carries the pinned terminal ownership/restoration fix, and native runtimes ship beside the executable with their license texts. Application code never embeds forks elsewhere, and release archives must carry those notices — see [Releasing](../releasing/01-releasing.md).
+
 ## Sensitive data
 
 Treat the following as sensitive and never place them in static documentation, status output, prompt guidance, or public artifacts:

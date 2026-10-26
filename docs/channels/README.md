@@ -1,6 +1,6 @@
 # Channels
 
-How Spynel talks to you outside the terminal.
+How Spynel talks to you: TUI, Telegram, and WhatsApp.
 
 | Document | Purpose |
 | --- | --- |

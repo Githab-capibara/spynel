@@ -46,6 +46,36 @@ The typed status boundary joins process-local runtime counts to a bounded durabl
 
 The durable-work list boundary extends that census into bounded item summaries for `/tasks` and `/goals`. It scans only configured built-in status folders, treats the folder as authoritative, refuses document symlinks, bounds directory entries, total documents, bytes, metadata, progress, diagnostics, and rendered items, and falls back to the safe file modification time when `updated_at` is invalid. The application layer defaults to all nonterminal work and applies deterministic recent, active, review, waiting, done, failed, and all semantic views plus day, limit, and detail options. The TUI, authorized Telegram/WhatsApp adapters, generic plain command API, and direct `spynel tasks`/`spynel goals` aliases all enter that same application boundary; CLI JSON wraps the terminal response in the shared NDJSON event schema. It sorts newest first and renders compact status/counter/latest-progress rows without starting a harness or exposing full paths and unknown front matter.
 
+## Workspace state layout
+
+Initialization creates one fixed private `.spynel/` directory inside each workspace root, and relative configuration paths resolve from that root — the directory above `.spynel/` — never from the process working directory:
+
+```text
+.spynel/
+├── config.yaml          # user-editable settings; validated atomic save/reload
+├── AGENTS.md            # workspace owner contract
+├── tasks/               # durable Markdown tasks by fixed status folder
+│   ├── AGENTS.md
+│   └── todo/ working/ review/ reviewing/ waiting/ done/ failed/ cancelled/ archive/
+├── goals/               # durable Markdown goals by fixed status folder
+│   ├── AGENTS.md
+│   └── proposed/ planning/ active/ review/ reviewing/ waiting/ done/ abandoned/
+├── prompts/             # runtime prompt templates (chat, task, goal, goal-review,
+│                        #   create-task, create-goal, review, recovery,
+│                        #   heartbeat, notification) — copied at init, user-overridable
+├── instructions/        # agent-chat, agent-developer, agent-reviewer,
+│                        #   agent-notification, agent-heartbeat standing behavior
+├── history/             # append-only conversation histories
+├── jobs/                # bounded, redacted, inspection-only job archives
+├── attachments/         # stored inbound attachments
+├── extensions/          # default extensions.directory (restart-bound setting)
+├── themes/              # user semantic color maps
+└── runtime/             # primary.json lease/discovery, session mappings,
+                         #   leases/, captured logs, notification outbox
+```
+
+Markdown files are the durable source of workflow state: front matter is machine-readable, bodies and agent logs are human-readable. History, job archives, runtime state, WhatsApp credentials, installed extensions, and the canonical configuration ([Configuration](../configuration/01-configuration.md)) all live here; only installation identity and process-control records live in the OS per-user configuration directory, and managed speech models live in the OS per-user cache. Spynel reads only this current schema: missing or malformed state fails closed rather than migrating.
+
 ## Screen contract
 
 A `core.Screen` is a transport-neutral form or action list rendered instead of chat. It may also provide named tabs plus an active index for wizard progress, while a control's optional `Section` inserts a labeled group rule before that control. A sectioned disclosure merges its clickable Show/Hide label into that rule instead of rendering a duplicate heading and button. The TUI preserves transcript/composer state while a screen is open. A child screen names its parent; the TUI snapshots and restores the parent's controls, unsaved edits, focus, disclosure state, and scroll position when the child completes or is escaped. Ctrl+C is a global surface exit: from any non-required screen or modal it drops the entire in-memory screen stack and returns directly to preserved chat; required setup exits the application. The TUI also owns a reusable centered modal primitive above `core.Screen`: while visible it captures other keyboard events, renders the underlying screen in place, and resolves one selected outcome before returning control. Dirty-exit confirmation for `/config`, `/telegram`, and `/whatsapp` offers Save through the ordinary validated persistence path, Discard without persistence, and safe-default Keep editing. Its semantic-muted control hints occupy the lower border, with rule segments as separators and a blank interior row above. Successful persistence restores chat; failure preserves the live form. Scalar form controls and text commands use the same `config.Setting` keys, so validation and persistence do not diverge between local and remote setup.

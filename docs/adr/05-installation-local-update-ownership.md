@@ -1,4 +1,4 @@
-# 05. Keep Update and Uninstall Ownership Installation-Local
+# 05. Keep update and uninstall ownership installation-local
 
 - **Status:** Accepted
 - **Date:** 2026-09-17
@@ -7,7 +7,7 @@
 
 ## Context
 
-Spynel installs through a root POSIX script or npm, and updates must restart every running instance of that installation across workspaces. A workspace-local or unmanaged record would lose track of processes after npm unlinks a running image, and a half-validated bundle must never replace a working installation.
+Spynel installs through a root POSIX script or npm, and updates must restart every running instance of that installation across workspaces. A workspace-local or unmanaged record would lose track of processes after npm unlinks a running image, and a half-validated bundle must never replace a working installation. Bundle layout and publication steps live in [Releasing](../releasing/01-releasing.md).
 
 ## Decision
 

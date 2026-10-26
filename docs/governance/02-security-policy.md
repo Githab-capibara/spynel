@@ -1,11 +1,11 @@
-# 02. Security Policy
-
+# 02. Security policy
 - **Status:** Accepted
 - **Date:** 2026-09-17
 - **Deciders:** @Githab-capibara
 - **Researcher:** document_specialist agent
 - **Purpose:** How to report a vulnerability and what support the alpha project commits to.
 - **Feeds into:** docs/README.md
+- **Related:** [Security and privacy](../security/02-security.md), [Contributing](01-contributing.md)
 
 Spynel is alpha software. It coordinates external coding harnesses, so its trust boundaries, channel authorization, and secret handling are documented risk surfaces; see [Security](../security/02-security.md) and the [Provider-Canary Threat Model](../security/01-provider-canary-threat-model.md).
 

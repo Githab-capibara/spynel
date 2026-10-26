@@ -31,7 +31,7 @@ To uninstall:
 curl -LsSf https://spynel.agent-zero.ai/uninstall.sh | sh
 ```
 
-This stops the installations' processes, removes their startup registrations, and removes both the standalone GitHub installation and the current global npm installation when present. Workspace data and unrelated files are kept. A custom standalone installation uses the same `SPYNEL_INSTALL_DIR` during removal. Native cleanup requires release 0.12.4 or newer; the script obtains that helper independently of the installed version.
+This stops the installations' processes, removes their startup registrations, and removes both the standalone GitHub installation and the current global npm installation when present. Workspace data and unrelated files are kept. A custom standalone installation uses the same `SPYNEL_INSTALL_DIR` during removal. Native cleanup requires release 0.12.2 or newer; the script obtains that helper independently of the installed version.
 
 Alternatively, npm requires Node.js 18 or newer:
 
@@ -62,7 +62,7 @@ Spynel detects supported coding harnesses. If none is available, setup shows ins
 
 `spynel update` updates its own installation and restarts every running instance of that installation across workspaces, including primaries, headless servers and secondary TUIs. `/update` in a channel selects the workspace primary's installation and performs the same operation. npm installations use npm; script installations use verified stable GitHub bundles. `spynel update check` or `/update check` only checks versions. `update install` also applies the update. Even when already current, an update request restarts the instances. Saved workspace configuration, histories and task/job state remain in place.
 
-`spynel killall` stops all verified running Spynel processes the caller can control, including other installations and older releases. It stops matching autostart services first so they do not immediately respawn, while retaining their registrations for the next boot/login. Coordinated restart uses private per-user process records: run the command with the same account and configuration home as the instances. Releases before 0.12.9 cannot receive this restart request; after installing the current command, run `spynel killall` once and relaunch those instances. An older npm launcher still supervising an updated binary also requires this one-time stop/relaunch. A detected older instance or failed restart produces an error instead of a success claim.
+`spynel killall` stops all verified running Spynel processes the caller can control, including other installations and older releases. It stops matching autostart services first so they do not immediately respawn, while retaining their registrations for the next boot/login. Coordinated restart uses private per-user process records: run the command with the same account and configuration home as the instances. Releases before 0.12.7 cannot receive this restart request; after installing the current command, run `spynel killall` once and relaunch those instances. An older npm launcher still supervising an updated binary also requires this one-time stop/relaunch. A detected older instance or failed restart produces an error instead of a success claim.
 
 Only interactive TUI starts perform proactive checks, bounded to ten seconds and refreshed asynchronously at most hourly. npm retains its existing explicit startup offer; the standalone TUI shows update availability and waits for `/update`. Headless services and noninteractive commands do not check automatically. `SPYNEL_SKIP_UPDATE_CHECK=1` suppresses proactive checks. No unattended upgrade is introduced.
 
@@ -107,4 +107,4 @@ Run the repository checks relevant to a complete local change:
 npm run test:npm
 ```
 
-Release packaging has additional native-archive checks documented in [releasing](../releasing/01-releasing.md). For non-visual operation, named conversations, streaming, and automation output, continue with the [plain CLI guide](../automation/01-cli-and-automation.md).
+Release packaging has additional native-archive checks documented in [releasing](../releasing/01-releasing.md). For non-visual operation, named conversations, streaming, and automation output, continue with the [plain CLI and automation](../automation/01-cli-and-automation.md).

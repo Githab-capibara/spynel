@@ -1,4 +1,4 @@
-# 01. Elect One Primary Server per Workspace
+# 01. Elect one primary server per workspace
 
 - **Status:** Accepted
 - **Date:** 2026-09-17
@@ -7,7 +7,7 @@
 
 ## Context
 
-Spynel's durable state, harness sessions, and histories must remain single-writer. Running a new owner freely alongside a live one would duplicate dispatch, split conversations, and corrupt Markdown leases. But a workspace must tolerate restarts, dead owners, and multiple live TUI and automation clients. The process boundary is a full application service, so the decision chooses a small numeric winner rather than replicating state machines.
+Spynel's durable state, harness sessions, and histories must remain single-writer. Running a new owner freely alongside a live one would duplicate dispatch, split conversations, and corrupt Markdown leases. But a workspace must tolerate restarts, dead owners, and multiple live TUI and automation clients. The process boundary is a full application service, so the decision chooses a small numeric winner rather than replicating state machines. The surrounding process-lifecycle contract lives in [Architecture](../product/02-architecture.md).
 
 ## Decision
 

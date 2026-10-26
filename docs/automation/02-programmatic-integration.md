@@ -11,7 +11,7 @@
 Spynel can be the communication control plane for a development sandbox. Its
 existing application service owns conversations, harness dispatch, jobs, history,
 and ordinary task/goal notification delivery. The interface is provider-neutral;
-it does not add a second agent engine or sandbox-specific policy.
+it does not add a second agent engine or sandbox-specific policy. The terminal-facing forms of the same service live in the [plain CLI and automation](01-cli-and-automation.md).
 
 ## Start headless; attach a terminal later
 
@@ -127,8 +127,10 @@ Within one elected service, up to 64 concurrent admission calls are fenced by
 source identity before hooks/provider dispatch. A repeated **recorded** source ID
 is rejected without dispatch, including after restart while its original history
 is intact. Same ID with different input is still a duplicate, never a new request.
-The existing strict duplicate scan fails closed on corrupt histories or histories
-over 2,000 raw records. Clear/deletion/branching and an ownerless one-shot process
+The existing strict duplicate scan streams the complete retained history with
+bounded memory and fails closed on corrupt or unreadable entries; only the
+separate startup retrigger recovery scan carries a 2,000-entry bound, and that
+bound never blocks admission. Clear/deletion/branching and an ownerless one-shot process
 are outside the retry guarantee. Extension cancellation before the user record
 exists is also outside durable duplicate suppression.
 
@@ -184,6 +186,27 @@ entries have no delivery IDs/cursors, but retain request/notification correlatio
 It is a bounded resynchronization view, not proof all historical side effects were
 observed. Resume `events` from its cursor; use ordinary history inspection if older
 records are needed. A renamed workspace changes cursors and requires resync.
+
+### Status, notification, and health
+
+`GET /v1/status?conversation=NAME&instance_id=ID` runs the same bounded status
+read as `/status` for `cli/<conversation>` (default conversation `local`) and
+returns its JSON object. It reports durable workflow counts, live jobs, and
+channel/orchestrator state without invoking a harness.
+
+`POST /v1/notify` accepts `{"origin":"cli/adapter","message":"text"}` or
+`{"recent_authorized":true,"message":"text"}`; exactly one of `origin` or
+`recent_authorized` is required, otherwise the request is rejected with HTTP 400.
+An accepted request returns HTTP 202 with `{"id":"<notification-id>"}`. This is
+an enqueue acknowledgment for one ordinary assistant message — not provider
+completion, not delivery confirmation, and never a task transition. It is the HTTP
+form of `spynel notify`; origin validation, control-string stripping, and outbox
+retry behave identically.
+
+`GET /v1/health` returns HTTP 204 with an empty body when the authenticated
+service is reachable. It reads no workspace state, starts no conversation, and
+invokes no harness; use it only to detect a live endpoint before dialing other
+routes.
 
 ## Optional Unix socket
 
@@ -274,5 +297,5 @@ connection.close()  # EOF alone never proves a provider turn completed.
 Final local test: use a disposable workspace with your intended harness, start
 `serve --socket`, subscribe, send and follow up, verify a later local notification,
 reconnect with its prior cursor, and attach a separate terminal. Controlled
-fixtures verify the interface; real provider, terminal emulator and 80|20 sandbox
+fixtures verify the interface; real provider, terminal emulator and 80/20 sandbox
 topology still require your local test.

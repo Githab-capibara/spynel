@@ -7,7 +7,7 @@ Spynel documentation follows four fixed shapes. This file is the master referenc
 - Filenames are lowercase kebab-case with a two-digit numeric prefix: `01-getting-started.md`.
 - The prefix numbers documents in reading order within a folder. Reuse never happens; when a document is removed, later documents keep their numbers.
 - Audience and `spynel docs` topic classification stay localized to the owning folder.
-- Folder names describe the topic (adr, product, guides, configuration, channels, automation, workflows, harness, security, extensions, releasing, tui). Never create generic "report", "misc", or "other" namespaces.
+- Folder names describe the topic (adr, product, guides, configuration, channels, automation, workflows, harness, security, extensions, releasing, tui, governance). Never create generic "report", "misc", or "other" namespaces.
 - Every folder keeps its own `AGENTS.md`, `README.md` (the table index), and `template.md`.
 - Additions, removals, or renames update the folder README index and owning `AGENTS.md` (DOX) immediately.
 - Content is English. "Report" never appears as a folder or document scope word.
@@ -50,7 +50,7 @@ What are we doing? (present tense, affirmative)
 ```markdown
 # 01. Title
 
-- **Status:** Research note
+- **Status:** Research note | Accepted
 - **Date:** YYYY-MM-DD
 - **Deciders:** @Githab-capibara
 - **Researcher:** ...
@@ -72,9 +72,39 @@ One-line scope statement.
 | [Getting Started](01-example-topic.md) | First engagement in ~5 minutes |
 ```
 
-## D. Project README (root only)
+## D. Master documentation index (`docs/README.md`)
 
-Badges and shields (license, stars, Discord, website), a hero image or video, benchmark results with donut charts, architectural diagrams (SVG), and tables linking into `docs/`.
+Four fixed sections, in order:
+
+```markdown
+# Documentation
+
+One-line scope statement.
+
+## Start here
+
+| Document | Purpose |
+| --- | --- |
+| [Getting Started](guides/01-getting-started.md) | ... |
+
+## Directory map
+
+| Folder | Scope |
+| --- | --- |
+| [adr](adr/README.md) | Architecture decision records. |
+
+## Key entry points
+
+...
+
+## Governance
+
+| Contract | Purpose |
+| --- | --- |
+| [AGENTS.md](AGENTS.md) | ... |
+```
+
+Every folder links here through its `README.md` row and its `AGENTS.md`. The root product `README.md` is owned by the root `AGENTS.md`, not by this template; its public shape (badges, hero, diagrams, tables into `docs/`) is defined there.
 
 ## Verification
 

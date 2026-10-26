@@ -1,4 +1,4 @@
-# 03. Make Markdown Files the Durable Workflow State
+# 03. Make markdown files the durable workflow state
 
 - **Status:** Accepted
 - **Date:** 2026-09-17
@@ -7,7 +7,7 @@
 
 ## Context
 
-Tasks and goals must survive restarts, be inspectable by any AI harness, and be auditable by humans. A database or binary store would hide state from harnesses and complicate review. The durable source of truth must be the same files any agent and any person can read and edit.
+Tasks and goals must survive restarts, be inspectable by any AI harness, and be auditable by humans. A database or binary store would hide state from harnesses and complicate review. The durable source of truth must be the same files any agent and any person can read and edit. The folder layout and workflow rules live in [Tasks and goals](../workflows/01-tasks-and-goals.md).
 
 ## Decision
 

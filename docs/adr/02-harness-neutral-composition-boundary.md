@@ -1,4 +1,4 @@
-# 02. Keep a Harness-Neutral Composition Boundary
+# 02. Keep a harness-neutral composition boundary
 
 - **Status:** Accepted
 - **Date:** 2026-09-17
@@ -7,7 +7,7 @@
 
 ## Context
 
-Spynel must exploit improving external coding-harness intelligence without duplicating or competing with it. TUI, Telegram, and WhatsApp need identical behavior, and future harnesses must plug in without redrawing the transport layer. If channels knew which agent protocol was active, every new harness would fork the communication code.
+Spynel must exploit improving external coding-harness intelligence without duplicating or competing with it. TUI, Telegram, and WhatsApp need identical behavior, and future harnesses must plug in without redrawing the transport layer. If channels knew which agent protocol was active, every new harness would fork the communication code. Compatibility and dispatch behavior are detailed in [Coding harness compatibility](../harness/01-harness-compatibility.md).
 
 ## Decision
 

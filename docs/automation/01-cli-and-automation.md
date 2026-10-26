@@ -4,7 +4,7 @@
 - **Date:** 2026-09-17
 - **Deciders:** @Githab-capibara
 - **Researcher:** document_specialist agent
-- **Purpose:** Complete non-visual command reference and output contract for the shared application service.
+- **Purpose:** Non-visual command reference and output contract for the shared application service.
 - **Feeds into:** docs/automation/02-programmatic-integration.md, docs/automation/03-agent-readable-docs.md
 - **Related:** [Configuration](../configuration/01-configuration.md), [Extensions and hooks](../extensions/01-extensions-and-hooks.md)
 
@@ -32,7 +32,7 @@ Runtime logs contain application diagnostics; per-job archives contain the order
 
 ## Proactive notifications
 
-`spynel notify --workdir /absolute/workspace (--origin CHANNEL/CONVERSATION | --recent-authorized) --message "message"` queues a complete assistant message without invoking a coding harness. Supported explicit origins are `telegram/TG-<id>`, `telegram/TG-group-<chat-id>`, `whatsapp/WA-<number>`, `whatsapp/WA-group-<group-id>`, `tui/<conversation>`, and `cli/<conversation>`. `--workdir` selects that workspace's canonical `.spynel/config.yaml`; `--config` and positional message text remain available for operator compatibility. The shared enqueue boundary removes ANSI/ECMA-48 sequences, terminal control strings and replies, and other unsafe C0/C1 controls while preserving tabs, newlines, Unicode, and Markdown; it rejects input left empty by normalization before delivery or history append. The origin must already exist in durable history and remote origins must still satisfy the current allow-list/group policy. Success prints `queued notification <id>`; disconnected remote delivery remains in `.spynel/runtime/outbox/` for ordinary retry. The command has no task-transition flags and never edits a task.
+`spynel notify --workdir /absolute/workspace (--origin CHANNEL/CONVERSATION | --recent-authorized) --message "message"` queues a complete assistant message without invoking a coding harness. `--stdin` reads the message body from standard input instead of `--message`, so a shell pipeline can supply it; exactly one of `--origin` or `--recent-authorized` is still required. Supported explicit origins are `telegram/TG-<id>`, `telegram/TG-group-<chat-id>`, `whatsapp/WA-<number>`, `whatsapp/WA-group-<group-id>`, `tui/<conversation>`, and `cli/<conversation>`. `--workdir` selects that workspace's canonical `.spynel/config.yaml`; `--config` and positional message text remain available for operator compatibility. The shared enqueue boundary removes ANSI/ECMA-48 sequences, terminal control strings and replies, and other unsafe C0/C1 controls while preserving tabs, newlines, Unicode, and Markdown; it rejects input left empty by normalization before delivery or history append. The origin must already exist in durable history and remote origins must still satisfy the current allow-list/group policy. Success prints `queued notification <id>`; disconnected remote delivery remains in `.spynel/runtime/outbox/` for ordinary retry. The command has no task-transition flags and never edits a task.
 
 Automatic task notifications use one ordinary asynchronous agent dispatch with exactly one bounded task-evidence block and the CLI syntax above. Safely fitting tasks are complete; oversized tasks provide deterministic valid-UTF-8 beginning and recent-end excerpts, an explicit untrusted middle-omission marker and omitted-byte count, plus the exact absolute authoritative path for full-file inspection. The agent decides whether to call the CLI and directly appends its successful send, skip reason, or CLI failure to task progress. Spynel does not parse the provider response, create a notification result, or maintain notification-specific persistence or recovery.
 
@@ -79,6 +79,14 @@ spynel followup [send flags] TEXT
 When native steering transfers output ownership, the earlier waiting CLI process receives a terminal transport status and exits successfully; the follow-up process receives subsequent deltas and the final response. This is the same emitter handoff used to keep overlapping remote-channel typing state correct.
 
 An ordinary second `send` still follows the shared channel behavior: it steers or queues when the conversation is active and starts a new turn when idle.
+
+## Receive conversation events
+
+```bash
+spynel events [--config PATH|--socket PATH] [--conversation NAME] [--after CURSOR]
+```
+
+`events` writes the same committed event feed as `GET /v1/events` to stdout, one JSON object per line: durable user records, assistant replies, errors, and later ordinary notifications in append order. The default conversation is `local`. Persist the last processed `cursor` only after handling its batch, then reconnect with `--after CURSOR` to resume without replaying handled events; invalid or expired cursors fail explicitly instead of restarting from the beginning. Deltas, activity, and provider statuses remain request-scoped, so pair `events` with `send --stream` when live progress matters. It requires a running primary (`spynel serve` first) or an explicit `--socket`, and `--socket` cannot be combined with `--config`.
 
 ## Inspect and resume conversations
 
@@ -156,9 +164,11 @@ Options such as `--config`, `--conversation`, and `--json` must precede alias ar
 
 `spynel job message NUMBER TEXT` and `/job message NUMBER TEXT` deliver nonterminal operator guidance to an active orchestrator job without changing its objective, session, lease, emitter, review phase, or notification destination. `job ping NUMBER` is the concise progress form: it asks the existing agent to record current progress, blockers, and next action in the durable document at the next safe opportunity, then continue. Acknowledgement is bounded and reports delivered, queued, duplicate, terminal, stale, unauthorized, or backpressure state; it does not wait for provider completion. Native steering and ordered same-session queues remain harness behavior. Queues hold at most eight controls per job and identical recent retries are applied once. If a control causes a provider final while the exact durable owner/session/file is still in a claimed nonterminal phase, Spynel permits one automatic same-session continuation; a second final falls through to ordinary reconciliation/recovery. Every authenticated workspace interface sees and controls the same live jobs wherever the operation is supported. Conversation identity and `notify.origin` do not restrict access, and job controls do not change notification routing.
 
-TUI-only visual or ownership operations—theme preview, title, welcome, resume screen, primary-window promotion, and quit—are intentionally rejected. Conversation resume has the disk-backed command above. `spynel whatsapp pair` remains the plain QR-pairing command.
+TUI-only visual or ownership operations—the complete `theme` command (bare list and named selection alike), title, welcome, resume screen, primary-window promotion, and quit—are intentionally rejected by `spynel command …`. Conversation resume has the disk-backed command above. `spynel whatsapp pair` remains the plain QR-pairing command.
 
 `spynel update` checks, updates and restarts every instance of its own managed installation across workspaces. It is independent of the current workspace or primary. `/update` through a channel selects that primary's installation. `spynel update check` only reports versions; `spynel update --json check` emits structured version state, while `spynel update --json` emits a terminal update acknowledgment and reports failures through its exit status. `spynel killall` stops all verified Spynel processes the caller can control, including other installations. Matching autostart services are stopped while their future registrations and workspace data remain intact. See [installation and updates](../guides/01-getting-started.md#updates) for older-instance handling and per-user scope.
+
+The remaining entry points are documented where their behavior lives rather than repeated here: `spynel init`, `spynel serve`, `spynel run`, and `spynel version` in [getting started](../guides/01-getting-started.md), `spynel doctor` in [troubleshooting](../guides/02-troubleshooting.md), and `spynel docs`/`spynel instructions` above. Aliases without their own section run the same shared handler as their slash or plural form: `spynel conversation`, `spynel effort`, `spynel speed`, `spynel new`, `spynel history`, `spynel restart`, `spynel logs`, `spynel todo`, `spynel extension`, and `spynel whatsapp`. Bare `spynel config` validates the discovered configuration and prints `valid: <absolute path>`—or the validation error, with a nonzero exit—without starting a server or reading workspace state; `spynel config set` and `spynel config get` keep the typed settings catalog and save-and-reload boundary.
 
 ## Tasks, goals, and extensions
 

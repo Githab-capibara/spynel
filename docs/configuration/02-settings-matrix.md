@@ -8,7 +8,7 @@
 - **Feeds into:** internal/config
 - **Related:** [Configuration](01-configuration.md)
 
-Every setting below is exposed by the shared typed catalog used by the TUI, slash commands, and plain CLI. The structured route array uses JSON as its command/form value while remaining ordinary YAML on disk. All rows use the serialized `app.Service.ApplySettings` path: validate, atomically save private YAML, reload that canonical file into the shared process snapshot before returning, and notify runtime owners. Subsequent operations read the refreshed snapshot; minimal direct hooks refresh cached orchestrator controls. Active channels and in-flight work are preserved while their supervisors consume the new snapshot. The three extension rows are the sole restart exception.
+Every setting below is exposed by the shared typed catalog used by the TUI, slash commands, and plain CLI. Task and goal workflows use fixed folders, so no route definition setting exists. All rows use the serialized `app.Service.ApplySettings` path: validate, atomically save private YAML, reload that canonical file into the shared process snapshot before returning, and notify runtime owners. Subsequent operations read the refreshed snapshot; minimal direct hooks refresh cached orchestrator controls. Active channels and in-flight work are preserved while their supervisors consume the new snapshot. The three extension rows are the sole restart exception. Field-by-field setting semantics live in [Configuration](01-configuration.md).
 
 | Setting | Prior behavior | Runtime owner and final effect | Validation / application | Verification boundary |
 | --- | --- | --- | --- | --- |
@@ -27,6 +27,7 @@ Every setting below is exposed by the shared typed catalog used by the TUI, slas
 | `workspace.history_max_messages` | Live | Prompt construction reads the newest bounded-history count | Validation/persistence is all-or-nothing | history prompt-limit tests |
 | `workspace.history_char_limit` | Live | Prompt construction reads the newest character limit | Validation/persistence is all-or-nothing | history prompt-limit tests |
 | `workspace.attachment_max_mb` | Live | Channel generation fingerprint and outbound parsing use the accepted limit | Invalid values reject before commit; stale adapters are revoked | channel/media limit tests |
+| `workspace.cleanup_retention_days` | Live | Orchestrator stores the new whole-day bound for the next eight-hour cleanup cycle; manual `/cleanup` resolves it per invocation | Range validation (1–36500) rejects before commit | cleanup lock, retention, and scheduler tests |
 | `startup.enabled` | Live | Immediate enable/disable actions and text commands register/remove and validate after snapshot reload, including unchanged retries | Invalid values reject before save; native errors identify unverified registration despite a saved preference | startup native-query/environment tests and application/TUI action tests |
 | `channels.tui.title` | Live | Shared-state title publication updates attached TUIs | Persistence failure publishes nothing | service title tests |
 | `channels.tui.theme` | Live | Palette validates before commit, then publishes to attached TUIs | Unknown/invalid palette rejects before commit | theme service and visual tests |

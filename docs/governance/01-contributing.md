@@ -6,8 +6,9 @@
 - **Researcher:** document_specialist agent
 - **Purpose:** How to propose, verify, and land changes in the Spynel repository.
 - **Feeds into:** docs/README.md
+- **Related:** [Documentation index](../README.md), [Security policy](02-security-policy.md), [Code of conduct](03-code-of-conduct.md)
 
-Spynel accepts contributions through normal GitHub pull requests. Before touching any file, read the applicable AGENTS.md chain: the root `AGENTS.md` owns repository-wide contracts, and the nearest child DOX file owns the subtree you plan to change.
+Spynel accepts contributions through normal GitHub pull requests. Before touching any file, read the applicable AGENTS.md chain: the root `AGENTS.md` owns repository-wide contracts, and the nearest child DOX file owns the subtree you plan to change. Folder scope and entry points live in the [documentation index](../README.md).
 
 ## Contribution flow
 
@@ -48,6 +49,8 @@ Run the checks that match your change before opening the pull request:
 | Changes to the local Bubble Tea terminal module | its race tests plus the real TUI PTY test |
 
 Verification commands reuse Go's shared user cache; do not point `GOCACHE` at a project-local directory. A deliberately requested cold-cache diagnostic must use `scripts/cold-cache.sh`.
+
+Supporting developer tools live beside those gates: `scripts/doxcheck/` implements the coverage/index gate that `scripts/dev.sh dox` runs, `scripts/ansi-to-html.mjs INPUT.ansi OUTPUT.html` converts a captured ANSI session to standalone HTML for review, `scripts/capture-tui.sh` records a real TUI PTY session, `scripts/terminal-copy-screen.mjs` replays a captured event log through the pinned test-only `@xterm/headless` package, and `python3 scripts/test-instance-updates.py <archive>` exercises cross-workspace npm update/restart coordination against a packaged release archive. Developer-script policy tests stay in `scripts/dev_test.go`.
 
 ## Review
 

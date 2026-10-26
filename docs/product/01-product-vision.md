@@ -10,7 +10,7 @@
 
 **Simplicity at scale.**
 
-Spynel is a classic program with no AI in its core. It coordinates and oversees external AI coding agents through the harnesses they already use. Spynel supplies deterministic communication, task state, lifecycle rules, and orchestration; the selected harness supplies intelligence, tools, and model capability.
+Spynel is a classic program with no AI in its core. It coordinates and oversees external AI coding agents through the harnesses they already use. Spynel supplies deterministic communication, task state, lifecycle rules, and orchestration; the selected harness supplies intelligence, tools, and model capability. The technical shape of that position lives in [Architecture](02-architecture.md).
 
 The intended relationship is **One human → one agent → infinite agents.** “One agent” means the single assistant-facing relationship through which the user discusses all work. It does not mean that Spynel is an AI agent. “Infinite agents” expresses the goal of scalable leverage without a matching increase in the user's coordination time; it is not a literal capacity, performance, or availability guarantee.
 

@@ -6,11 +6,9 @@
 - **Researcher:** document_specialist agent
 - **Purpose:** The canonical `.spynel/config.yaml`, path rules, validation, and live-change behavior.
 - **Feeds into:** docs/configuration/02-settings-matrix.md
-- **Related:** [Configuration application matrix](02-settings-matrix.md), [Persistent instructions](../workflows/02-persistent-instructions.md)
+- **Related:** [Configuration application matrix](02-settings-matrix.md), [Persistent per-agent instructions](../workflows/02-persistent-instructions.md)
 
-Every eligible task transition directly starts one ordinary notification-agent job. `notify.on` tells that agent which outcomes may use the task's stable origin; the agent decides whether to call the ordinary notification CLI and edits task progress itself.
-
-`.spynel/config.yaml` is the user-editable project configuration inside the fixed private `.spynel` state directory. Spynel searches parent directories for that path, while relative configuration paths resolve from the workspace root one directory above `.spynel`, not from the process's current directory. On bare interactive startup only, an uninitialized launch directory with an initialized ancestor produces a pre-startup choice to use that parent, initialize locally, or exit. The parent choice is the default and changes the process working directory to the selected root before election; explicit config targets, server mode, and automation keep ordinary deterministic discovery without prompting. Unknown fields fail explicitly. The sole compatibility normalization accepts the retired `channels.tui.enabled` key, discards it, and omits it from the next canonical save.
+`.spynel/config.yaml` is the user-editable project configuration inside the fixed private `.spynel` state directory. Spynel searches parent directories for that path, while relative configuration paths resolve from the workspace root one directory above `.spynel`, not from the process's current directory. On bare interactive startup only, an uninitialized launch directory with an initialized ancestor produces a pre-startup choice to use that parent, initialize locally, or exit. The parent choice is the default and changes the process working directory to the selected root before election; explicit config targets, server mode, and automation keep ordinary deterministic discovery without prompting. Unknown or unused YAML keys are ignored on load and disappear at the next canonical save; only `/config set` rejects unknown setting names. The sole compatibility normalization accepts the retired `channels.tui.enabled` key, discards it, and omits it from the next canonical save.
 
 The built-in reviewed task lifecycle is `todo -> working -> review -> reviewing -> done`, with `waiting`, `failed`, and `cancelled` side outcomes. `harness.reviews` controls task review globally. Its default `skip-trivial` mode preserves the agent-decided policy: boolean `review_required` defaults to `true` when missing, malformed non-booleans fail safe to review, and creators choose by expected risk reduction versus review latency and cost. Broad, high-risk, hard-to-reverse, security-sensitive, data/schema, infrastructure, deployment, release, migration, or materially uncertain work normally requires review; read-only work and minor, localized, easily reversible changes with clear verification may set `false` and use `working -> done`. `always` forces every task into independent review even when its document says `false`; `never` forces the direct-completion path even when a document says `true`. A queued task review encountered in `never` returns to `todo` so an implementation session can record valid direct-completion evidence instead of silently treating unreviewed work as reviewed. The harness-free task constructor writes the effective boolean, so `always` overrides `--no-review` and `never` overrides its absence. This setting never disables the mandatory goal outcome review that decides whether a goal met its success criteria.
 
@@ -44,8 +42,9 @@ The TUI renders the scalar settings catalog as form controls. The same keys are 
 /telegram on
 /whatsapp set mode dedicated
 /whatsapp off
-/theme catppuccin-latte
 ```
+
+`theme` is the one exception: the plain CLI rejects the complete `theme` command, including a named selection, as interactive-TUI-specific. Apply themes through the TUI or a chat channel instead.
 
 Within text and secret fields, Space inserts text, Left/Right moves the cursor, Home/End jumps to either edge, and Backspace/Delete edits at the cursor. Those keys continue to cycle values when a toggle or select control is focused.
 
@@ -138,7 +137,7 @@ Palette foundations come directly from the [Nord palette](https://www.nordtheme.
 
 An upgraded workspace with no theme files receives the revised built-ins immediately. If theme YAML already exists, Spynel treats every file as user-owned: `spynel init --force` adds missing revised stock templates but neither overwrites nor deletes old stock-named files. To obtain exactly the revised set, run that command, then archive unwanted older palette files outside `.spynel/themes`; keep any locally modified files you still want in the picker.
 
-Bare `/theme` reloads the theme files, then opens an inline TUI list or prints the available names and descriptions in Telegram/WhatsApp. In the TUI, Up/Down (or Tab/Shift+Tab) temporarily previews the highlighted palette across the complete interface, Enter persists it, and Escape restores the palette that was active before browsing. `/theme <name>` also reloads and applies directly from every channel, including when the active file was edited without changing its name.
+Bare `/theme` reloads the theme files, then opens an inline TUI list or prints the available names and descriptions in Telegram/WhatsApp. In the TUI, Up/Down (or Tab/Shift+Tab) temporarily previews the highlighted palette across the complete interface, Enter persists it, and Escape restores the palette that was active before browsing. `/theme <name>` also reloads and applies directly from every chat channel, including when the active file was edited without changing its name; the plain CLI rejects `spynel command theme …` entirely, so scripts cannot select a palette.
 
 ## Telegram
 
@@ -194,7 +193,7 @@ When groups are enabled, the message must mention or reply to the linked account
 
 Selectable values cover all 25 languages supported by multilingual Parakeet: Bulgarian (`bg`), Croatian (`hr`), Czech (`cs`), Danish (`da`), Dutch (`nl`), English (`en`), Estonian (`et`), Finnish (`fi`), French (`fr`), German (`de`), Greek (`el`), Hungarian (`hu`), Italian (`it`), Latvian (`lv`), Lithuanian (`lt`), Maltese (`mt`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Slovak (`sk`), Slovenian (`sl`), Spanish (`es`), Swedish (`sv`), Russian (`ru`), and Ukrainian (`uk`). `auto` is also available for multilingual automatic detection.
 
-The first supported voice note downloads about 480 MB of compressed model data and expands it to roughly 640 MB in `spynel/speech/v1/parakeet` below the platform's per-user cache directory. Linux and macOS use the path returned by their native user-cache convention. Compatible workspaces reuse one model version. A cross-process lock protects validation and installation; the downloader writes a private `.partial` file, enforces the pinned maximum size, verifies SHA-256, rejects absolute or parent-traversal archive paths, verifies every required file and compatibility marker, and atomically publishes a versioned directory. A corrupt managed version is replaced. If the user cache cannot be resolved or created, startup reports the failure and recommends fixing its permissions or setting `speech.model_dir` explicitly.
+The first supported voice note downloads a compressed model archive of roughly 465–480 MiB (about 490–500 MB) that expands to about 630–640 MiB (roughly 660–670 MB) in `spynel/speech/v1/parakeet` below the platform's per-user cache directory. Linux and macOS use the path returned by their native user-cache convention. Compatible workspaces reuse one model version. A cross-process lock protects validation and installation; the downloader writes a private `.partial` file, enforces the pinned maximum size, verifies SHA-256, rejects absolute or parent-traversal archive paths, verifies every required file and compatibility marker, and atomically publishes a versioned directory. A corrupt managed version is replaced. If the user cache cannot be resolved or created, startup reports the failure and recommends fixing its permissions or setting `speech.model_dir` explicitly.
 
 Initialization writes the current embedded contract for new workspaces but does not overwrite an existing customized `.spynel/AGENTS.md`.
 
@@ -242,7 +241,7 @@ The semantic heartbeat is not the ten-second route scan, the five-second primary
 ## Extensions
 
 - `enabled`: bypass or enable every hook without deleting extensions.
-- `directory`: installed Git repository root.
+- `directory`: installed Git repository root; defaults to the workspace-relative `.spynel/extensions`, and an absolute path may point elsewhere.
 - `hook_timeout`: maximum duration per executable hook.
 
-These extension controls are available through `/config` and take effect after restart. Extension repositories are trusted local code and receive the same filesystem/process authority as Spynel.
+All three extension controls are restart-bound — the only restart-bound settings — so they take effect after restart while every other exposed setting applies live. They are available through `/config`. Extension repositories are trusted local code and receive the same filesystem/process authority as Spynel.

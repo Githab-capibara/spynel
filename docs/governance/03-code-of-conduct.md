@@ -1,4 +1,4 @@
-# 03. Code of Conduct
+# 03. Code of conduct
 
 - **Status:** Accepted
 - **Date:** 2026-09-17
@@ -6,10 +6,11 @@
 - **Researcher:** document_specialist agent
 - **Purpose:** Collaboration expectations for issues, pull requests, documentation, and community spaces.
 - **Feeds into:** docs/README.md
+- **Related:** [Contributing](01-contributing.md), [Security policy](02-security-policy.md)
 
 ## Scope
 
-This code of conduct applies to the canonical repository on GitHub: issues, pull requests, discussions, documentation, and any linked community spaces. It applies to everyone, including maintainers.
+This code of conduct applies to the canonical repository on GitHub: issues, pull requests, discussions, documentation, and any linked community spaces. It applies to everyone, including maintainers. Contribution workflow details live in [Contributing](01-contributing.md).
 
 ## Expectations
 

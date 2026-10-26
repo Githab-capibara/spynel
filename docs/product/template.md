@@ -27,4 +27,4 @@ Spynel is a classic, non-AI program that coordinates and oversees external AI/co
 
 ## Verification
 
-A new or edited vision/architecture statement must remain consistent with the root product contract and docs` README index before `scripts/dev.sh dox` closes.
+A new or edited vision/architecture statement must remain consistent with the root product contract and the [`docs/README.md`](../README.md) index before `scripts/dev.sh dox` closes.
